@@ -1,5 +1,6 @@
 package com.jelly.thor.customview.kugou
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.DisplayMetrics
@@ -77,6 +78,7 @@ class SlidingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSe
         scrollTo(mMenuWidth, 0)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         //4.处理手指松开后自动到指定位置
         if (ev.action == MotionEvent.ACTION_UP) {

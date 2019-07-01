@@ -5,8 +5,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
+            android:id="@+id/clickFontStyle"
+            android:text="我是新字体：中国制造CLICK click 123456"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="#0f0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/clickSnapHelpTest"
+            android:text="SnapHelp测试"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@android:color/white"
+            android:background="#00f"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
             android:id="@+id/clickKuGouSlidingMenu"
-            android:text="clickKuGouSlidingMenu"
+            android:text="我是clickKuGouSlidingMenu123456"
             android:gravity="center"
             android:padding="20dp"
             android:background="#f00"
