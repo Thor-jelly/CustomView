@@ -6,10 +6,7 @@ import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.HorizontalScrollView
 import com.jelly.thor.customview.R
 
@@ -26,11 +23,42 @@ class SlidingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private lateinit var menuView: View
 
     /**
+     * 是否打开菜单，默认是关闭的
+     */
+    private var mIsOpenMenu = false
+
+    /**
      * 菜单宽度
      */
     private val mMenuWidth by lazy {
         //菜单页宽度是 屏幕宽度 - 右边一部分距离(自定义属性)
         getScreenWidth(context) - rightMargin
+    }
+
+    private val mGestureDetector by lazy {
+        GestureDetector(this.context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+                //只在快速滑动的时候调用
+                Log.d("123===", "快速滑动回调$velocityX")
+                //从日志中可以看出 ，快速往左是一个负数，快速往右是一个正数
+
+                if (mIsOpenMenu) {
+                    //原来菜单是打开状态，往左快速滑动 关闭菜单
+                    if (velocityX < 0) {
+                        closeMenu()
+                        return true
+                    }
+                } else {
+                    //原来菜单是关闭状态，往右快速滑动 打开菜单
+                    if (velocityX > 0) {
+                        openMenu()
+                        return true
+                    }
+                }
+
+                return super.onFling(e1, e2, velocityX, velocityY)
+            }
+        })
     }
 
     init {
@@ -80,22 +108,39 @@ class SlidingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
+        //快速回调处理事件
+        if (mGestureDetector.onTouchEvent(ev)) {
+            return true
+        }
+
         //4.处理手指松开后自动到指定位置
         if (ev.action == MotionEvent.ACTION_UP) {
             //只需要根据手指抬起距离来判断
             Log.d("123===", "--->$scrollX")
             if (scrollX > mMenuWidth / 2) {
                 //关闭菜单
-                smoothScrollTo(mMenuWidth, 0)
+                closeMenu()
             } else {
                 //打开菜单
-                smoothScrollTo(0, 0)
+                openMenu()
             }
             //不加这个会会出现，松开就停止的状态
             //主要是 super.onTouchEvent(ev) 的up事件中调用了 这个方法fling(-initialVelocity);
             return true
         }
         return super.onTouchEvent(ev)
+    }
+
+    private fun openMenu() {
+        mIsOpenMenu = true
+        Log.d("123===", "打开菜单")
+        smoothScrollTo(0, 0)
+    }
+
+    private fun closeMenu() {
+        mIsOpenMenu = false
+        Log.d("123===", "关闭菜单")
+        smoothScrollTo(mMenuWidth, 0)
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
