@@ -26,6 +26,10 @@ class SlidingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSe
      * 是否打开菜单，默认是关闭的
      */
     private var mIsOpenMenu = false
+    /**
+     * 是否拦截
+     */
+    private var mIsIntercept = false
 
     /**
      * 菜单宽度
@@ -70,6 +74,24 @@ class SlidingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSe
         typedArray.recycle()
     }
 
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        mIsIntercept = false
+        //时间拦截
+        if (mIsOpenMenu) {
+            //如果是打开菜单状态，并且点击了右边主题布局，隐藏菜单
+            if (ev.x > mMenuWidth) {
+                //关闭菜单
+                closeMenu()
+                //2 拦截子view点击事件
+
+                //如果返回true，会拦截子view的点击事件，并且会响应自己的onTouchEvent事件
+                mIsIntercept = true
+                return true
+            }
+        }
+        return super.onInterceptTouchEvent(ev)
+    }
+
     /**
      * 宽高部队，指定宽高
      */
@@ -108,6 +130,11 @@ class SlidingMenu @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
+        //如果有拦截，就不需要自己拦截
+        if (mIsIntercept) {
+            return true
+        }
+
         //快速回调处理事件
         if (mGestureDetector.onTouchEvent(ev)) {
             return true
