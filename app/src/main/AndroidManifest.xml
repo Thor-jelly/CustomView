@@ -18,7 +18,10 @@
             </intent-filter>
         </activity>
 
+        <!--酷狗侧边栏-->
         <activity android:name=".kugou.SlidingKuGouMenuActivity"/>
+        <!--qq6.0效果-->
+        <activity android:name=".qq6.SlidingQq6MenuActivity"/>
 
         <activity android:name=".snaphelptest.SnapHelpActivity"/>
     </application>

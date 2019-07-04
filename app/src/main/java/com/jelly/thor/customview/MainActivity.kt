@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
+import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
 import com.jelly.thor.customview.utils.FontStyleEnum
 import com.jelly.thor.customview.utils.setFontStyle
@@ -28,6 +29,18 @@ class MainActivity : AppCompatActivity() {
             //酷狗侧边栏样式
             clickKuGouSlidingMethod()
         }
+
+        clickQq6SlidingMenu.setOnClickListener {
+            //qq6.0侧边栏效果
+            clickQq6SlidingMethod()
+        }
+    }
+
+    /**
+     * qq6.0侧边栏效果
+     */
+    private fun clickQq6SlidingMethod() {
+        startActivity(Intent(this, SlidingQq6MenuActivity::class.java))
     }
 
     /**

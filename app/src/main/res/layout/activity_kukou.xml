@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         android:id="@+id/home_sliding_menu"
         app:menuRightMargin="62dp"
-        android:background="@drawable/home_menu_bg"
+        android:background="@drawable/kugout_home_menu_bg"
         android:orientation="vertical">
 
     <LinearLayout

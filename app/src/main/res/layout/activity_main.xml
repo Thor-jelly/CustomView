@@ -25,10 +25,19 @@
 
     <TextView
             android:id="@+id/clickKuGouSlidingMenu"
-            android:text="我是clickKuGouSlidingMenu123456"
+            android:text="仿酷狗侧边栏效果"
             android:gravity="center"
             android:padding="20dp"
             android:background="#f00"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/clickQq6SlidingMenu"
+            android:text="仿qq6.0侧边栏效果"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="#ff0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 </LinearLayout>
