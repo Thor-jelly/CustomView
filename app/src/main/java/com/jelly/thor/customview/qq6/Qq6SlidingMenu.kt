@@ -2,11 +2,13 @@ package com.jelly.thor.customview.qq6
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import com.jelly.thor.customview.R
 
@@ -37,6 +39,13 @@ class Qq6SlidingMenu @JvmOverloads constructor(context: Context, attrs: Attribut
     private val mMenuWidth by lazy {
         //菜单页宽度是 屏幕宽度 - 右边一部分距离(自定义属性)
         getScreenWidth(context) - rightMargin
+    }
+
+    /**
+     * 阴影
+     */
+    private val mShadowView by lazy {
+        View(this.context)
     }
 
     private val mGestureDetector by lazy {
@@ -74,23 +83,23 @@ class Qq6SlidingMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         typedArray.recycle()
     }
 
-//    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-//        mIsIntercept = false
-//        //时间拦截
-//        if (mIsOpenMenu) {
-//            //如果是打开菜单状态，并且点击了右边主题布局，隐藏菜单
-//            if (ev.x > mMenuWidth) {
-//                //关闭菜单
-//                closeMenu()
-//                //2 拦截子view点击事件
-//
-//                //如果返回true，会拦截子view的点击事件，并且会响应自己的onTouchEvent事件
-//                mIsIntercept = true
-//                return true
-//            }
-//        }
-//        return super.onInterceptTouchEvent(ev)
-//    }
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        mIsIntercept = false
+        //时间拦截
+        if (mIsOpenMenu) {
+            //如果是打开菜单状态，并且点击了右边主题布局，隐藏菜单
+            if (ev.x > mMenuWidth) {
+                //关闭菜单
+                closeMenu()
+                //2 拦截子view点击事件
+
+                //如果返回true，会拦截子view的点击事件，并且会响应自己的onTouchEvent事件
+                mIsIntercept = true
+                return true
+            }
+        }
+        return super.onInterceptTouchEvent(ev)
+    }
 
     /**
      * 宽高部队，指定宽高
@@ -113,13 +122,29 @@ class Qq6SlidingMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         val menuParams = menuView.layoutParams
         menuParams.width = mMenuWidth
         //7.0以下的手机必须添加下面一行代码
-        //menuView.layoutParams = menuParams
+        menuView.layoutParams = menuParams
 
+        //仿qq菜单界面展示时，主内容页上有阴影覆盖
         contentView = viewGroup.getChildAt(1)
+        //把自己先移除
+        viewGroup.removeView(contentView)
+
+        //在主内容上套一层阴影
+        val fl = FrameLayout(viewGroup.context)
+        fl.addView(contentView)
+        mShadowView.setBackgroundColor(Color.parseColor("#55000000"))
+        fl.addView(mShadowView)
+
+        //设置是属性
         val contentParams = contentView.layoutParams
         contentParams.width = getScreenWidth(context)
         //7.0以下的手机必须添加下面一行代码
-        //contentView.layoutParams = contentParams
+        contentView.layoutParams = contentParams
+
+        //在添加进原来位置
+        viewGroup.addView(fl)
+
+        contentView = viewGroup.getChildAt(1)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -130,7 +155,7 @@ class Qq6SlidingMenu @JvmOverloads constructor(context: Context, attrs: Attribut
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        /*//如果有拦截，就不需要自己拦截
+        //如果有拦截，就不需要自己拦截
         if (mIsIntercept) {
             return true
         }
@@ -138,7 +163,7 @@ class Qq6SlidingMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         //快速回调处理事件
         if (mGestureDetector.onTouchEvent(ev)) {
             return true
-        }*/
+        }
 
         //4.处理手指松开后自动到指定位置
         if (ev.action == MotionEvent.ACTION_UP) {
@@ -199,6 +224,8 @@ class Qq6SlidingMenu @JvmOverloads constructor(context: Context, attrs: Attribut
 
         //平移
         menuView.translationX = 0.7F * l
+
+        mShadowView.alpha = 1 - (l.toFloat()/mMenuWidth)
     }
 
     /**
