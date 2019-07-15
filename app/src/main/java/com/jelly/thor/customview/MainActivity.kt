@@ -3,6 +3,7 @@ package com.jelly.thor.customview
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
@@ -35,6 +36,18 @@ class MainActivity : AppCompatActivity() {
             //qq6.0侧边栏效果
             clickQq6SlidingMethod()
         }
+
+        clickCarHomeItem.setOnClickListener {
+            //汽车之家折叠列表
+            clickCarHomeItemMethod()
+        }
+    }
+
+    /**
+     * 汽车之家折叠列表
+     */
+    private fun clickCarHomeItemMethod() {
+        startActivity(Intent(this, CarHomeItemStyleActivity::class.java))
     }
 
     /**

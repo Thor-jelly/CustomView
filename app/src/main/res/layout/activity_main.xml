@@ -42,11 +42,21 @@
             android:layout_height="wrap_content"/>
 
     <TextView
-            android:id="@+id/clickQq6SlidingMenu"
-            android:text="仿qq6.0侧边栏效果"
+        android:id="@+id/clickQq6SlidingMenu"
+        android:text="仿qq6.0侧边栏效果"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="#ff0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/clickCarHomeItem"
+            android:text="汽车之家折叠列表"
             android:gravity="center"
             android:padding="20dp"
-            android:background="#ff0"
+            android:textColor="@android:color/white"
+            android:background="#990"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 </LinearLayout>

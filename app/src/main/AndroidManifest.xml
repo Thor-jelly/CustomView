@@ -24,6 +24,8 @@
         <activity android:name=".qq6.SlidingQq6MenuActivity"/>
 
         <activity android:name=".snaphelptest.SnapHelpActivity"/>
+        <!--汽车之家折叠列表-->
+        <activity android:name=".carhomeitemstyle.CarHomeItemStyleActivity"/>
     </application>
 
 </manifest>

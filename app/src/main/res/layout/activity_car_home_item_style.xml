@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jelly.thor.customview.carhomeitemstyle.VerticalDragListView
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:background="#00f"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:text="后面的tv11"
+    />
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="300dp"-->
+    <!--android:background="#f0f"-->
+    <!--android:textSize="20dp"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:gravity="center"-->
+    <!--android:text="前面的tv"-->
+    <!--/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mRv"
+            android:background="#f0f"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</com.jelly.thor.customview.carhomeitemstyle.VerticalDragListView>
