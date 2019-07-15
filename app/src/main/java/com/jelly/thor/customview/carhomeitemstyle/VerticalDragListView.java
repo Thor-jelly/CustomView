@@ -166,7 +166,7 @@ public class VerticalDragListView extends FrameLayout {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mDownY = ev.getY();
-                //如果写这行会提示 vieDragsHelp没有Down事件
+                //如果不写下面代码会提示 vieDragsHelp没有Down事件
                 // （E/ViewDragHelper: Ignoring pointerId=0 because ACTION_DOWN was not received for this pointer before ACTION_MOVE. It likely happened because  ViewDragHelper did not receive all the events in the event stream.）
                 mViewDragHelper.processTouchEvent(ev);
                 break;
