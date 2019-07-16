@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
+import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
 import com.jelly.thor.customview.utils.FontStyleEnum
@@ -29,38 +30,26 @@ class MainActivity : AppCompatActivity() {
 
         clickKuGouSlidingMenu.setOnClickListener {
             //酷狗侧边栏样式
-            clickKuGouSlidingMethod()
+            startNewActivity(SlidingKuGouMenuActivity::class.java)
         }
 
         clickQq6SlidingMenu.setOnClickListener {
             //qq6.0侧边栏效果
-            clickQq6SlidingMethod()
+            startNewActivity(SlidingQq6MenuActivity::class.java)
         }
 
         clickCarHomeItem.setOnClickListener {
             //汽车之家折叠列表
-            clickCarHomeItemMethod()
+            startNewActivity(CarHomeItemStyleActivity::class.java)
+        }
+
+        click9LockPalaces.setOnClickListener {
+            //9宫格解锁样式
+            startNewActivity(NineLockPalacesActivity::class.java)
         }
     }
 
-    /**
-     * 汽车之家折叠列表
-     */
-    private fun clickCarHomeItemMethod() {
-        startActivity(Intent(this, CarHomeItemStyleActivity::class.java))
-    }
-
-    /**
-     * qq6.0侧边栏效果
-     */
-    private fun clickQq6SlidingMethod() {
-        startActivity(Intent(this, SlidingQq6MenuActivity::class.java))
-    }
-
-    /**
-     * 酷狗侧边栏样式
-     */
-    private fun clickKuGouSlidingMethod() {
-        startActivity(Intent(this, SlidingKuGouMenuActivity::class.java))
+    private fun startNewActivity(cls: Class<*>) {
+        startActivity(Intent(this, cls))
     }
 }

@@ -59,4 +59,14 @@
             android:background="#990"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/click9LockPalaces"
+            android:text="9宫格解锁样式"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@android:color/white"
+            android:background="#909"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 </LinearLayout>

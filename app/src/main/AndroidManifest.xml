@@ -26,6 +26,8 @@
         <activity android:name=".snaphelptest.SnapHelpActivity"/>
         <!--汽车之家折叠列表-->
         <activity android:name=".carhomeitemstyle.CarHomeItemStyleActivity"/>
+        <!--9宫格-->
+        <activity android:name=".ninelockpalaces.NineLockPalacesActivity"/>
     </application>
 
 </manifest>
