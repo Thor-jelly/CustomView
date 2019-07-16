@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.customview.widget.ViewDragHelper;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * 类描述：//TODO:(这里用一句话描述这个方法的作用)    <br/>
@@ -172,7 +171,7 @@ public class VerticalDragListView extends FrameLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 float moveY = ev.getY();
-                if ((moveY - mDownY) >= 0  && !mDragView.canScrollVertically(-1)) {
+                if ((moveY - mDownY) >= 0 && !mDragView.canScrollVertically(-1)) {
                     //向下滑动拦截，不让Rv做处理
                     return true;
                 }

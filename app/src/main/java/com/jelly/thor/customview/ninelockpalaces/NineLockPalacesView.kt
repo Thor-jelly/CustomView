@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 
 /**
@@ -19,10 +18,10 @@ class NineLockPalacesView @JvmOverloads constructor(
 ) :
     View(context, attrs, defStyleAttr) {
     //    自定义属性
-    private val mOutRadio by lazy {
-        //外圆大小根据宽度来
-        width
-    }
+    /**
+     * 外圆大小
+     */
+    private var mOutRadio = 0
 
     /**
      * 是否是第一次初始化，确保初始化只执行一次
@@ -89,6 +88,29 @@ class NineLockPalacesView @JvmOverloads constructor(
             //绘制9个点
             initDot()
         }
+
+        //绘制9宫格
+        drawShow(canvas!!)
+    }
+
+    private fun drawShow(canvas: Canvas) {
+        for (i in 0..8) {
+            for (point in mPoints[i]) {
+                //先绘制外圆
+                if (point == null) {
+                    continue
+                }
+                //绘制外圆
+                canvas.drawCircle(point.centerX.toFloat(), point.centerY.toFloat(), mOutRadio.toFloat(), mNormalPaint)
+
+                //绘制内圆
+                mNormalPaint.color = mInnerNormalColor
+                canvas.drawCircle(
+                    point.centerX.toFloat(), point.centerY.toFloat(),
+                    (mOutRadio / 3).toFloat(), mNormalPaint
+                )
+            }
+        }
     }
 
     private fun initDot() {
@@ -113,9 +135,14 @@ class NineLockPalacesView @JvmOverloads constructor(
             offsetX = (nowWidth - nowHeight) / 2
             nowWidth = nowHeight
         }
+        //一个item 大小
+        val oneWidth = nowWidth / 3
+
+        //设置外圆大小
+        mOutRadio = oneWidth / 2
+
 
         //9个点
-        val oneWidth = nowWidth / 3
         //算出9个点的坐标
         mPoints[0][0] = Point(offsetX + oneWidth / 2, offsetY + oneWidth / 2, 0)
         mPoints[0][1] = Point(offsetX + oneWidth * 3 / 2, offsetY + oneWidth / 2, 1)
@@ -129,11 +156,6 @@ class NineLockPalacesView @JvmOverloads constructor(
         mPoints[2][1] = Point(offsetX + oneWidth * 3 / 2, offsetY + oneWidth * 5 / 2, 7)
         mPoints[2][2] = Point(offsetX + oneWidth * 5 / 2, offsetY + oneWidth * 5 / 2, 8)
 
-    }
-
-    private fun dp2px(dp: Int): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics)
-            .toInt()
     }
 
     enum class PointStatusEnum {
