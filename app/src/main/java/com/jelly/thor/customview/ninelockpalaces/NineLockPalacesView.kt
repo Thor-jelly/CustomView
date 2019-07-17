@@ -94,20 +94,31 @@ class NineLockPalacesView @JvmOverloads constructor(
     }
 
     private fun drawShow(canvas: Canvas) {
-        for (i in 0..8) {
-            for (point in mPoints[i]) {
+        for (outPoint in mPoints) {
+            if (outPoint == null) {
+                continue
+            }
+            for (intPoint in outPoint) {
                 //先绘制外圆
-                if (point == null) {
+                if (intPoint == null) {
                     continue
                 }
                 //绘制外圆
-                canvas.drawCircle(point.centerX.toFloat(), point.centerY.toFloat(), mOutRadio.toFloat(), mNormalPaint)
+                mNormalPaint.color = mOuterNormalColor
+                canvas.drawCircle(
+                    intPoint.centerX.toFloat(),
+                    intPoint.centerY.toFloat(),
+                    mOutRadio.toFloat(),
+                    mNormalPaint
+                )
 
                 //绘制内圆
                 mNormalPaint.color = mInnerNormalColor
                 canvas.drawCircle(
-                    point.centerX.toFloat(), point.centerY.toFloat(),
-                    (mOutRadio / 3).toFloat(), mNormalPaint
+                    intPoint.centerX.toFloat(),
+                    intPoint.centerY.toFloat(),
+                    (mOutRadio / 6).toFloat(),
+                    mNormalPaint
                 )
             }
         }
@@ -139,7 +150,7 @@ class NineLockPalacesView @JvmOverloads constructor(
         val oneWidth = nowWidth / 3
 
         //设置外圆大小
-        mOutRadio = oneWidth / 2
+        mOutRadio = oneWidth / 4
 
 
         //9个点
