@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 /**
@@ -80,6 +81,94 @@ class NineLockPalacesView @JvmOverloads constructor(
         paint
     }
 
+    private val mPoint: Point?
+        get() {
+            for (outPoint in mPoints) {
+                for (inPoint in outPoint) {
+                    if (inPoint == null) {
+                        continue
+                    }
+                    val centerX = inPoint.centerX
+                    val centerY = inPoint.centerY
+                    if (NineLockPalaceUtils.checkInRound(
+                            centerX.toFloat(),
+                            centerY.toFloat(),
+                            mOutRadio.toFloat(),
+                            mMoveX.toFloat(),
+                            mMoveY.toFloat()
+                        )
+                    ) {
+                        //在圆内
+                        return inPoint
+                    }
+                }
+            }
+            return null
+        }
+
+    /**
+     * 移动x轴
+     */
+    private var mMoveX = 0F
+    /**
+     * 移动y轴
+     */
+    private var mMoveY = 0F
+    /**
+     * 是否按下的时候在一个点上
+     */
+    private var mIsTouchPoint = false
+
+    /**
+     * 按下的点集合
+     */
+    private val mSelectPointsList = mutableListOf<Point>()
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        val action = event?.action ?: return super.onTouchEvent(event)
+        mMoveX = event.x
+        mMoveY = event.y
+        //处理触摸事件
+        when (action) {
+            MotionEvent.ACTION_DOWN -> {
+                //按下
+                mIsTouchPoint = true
+                //1.判断手指是否在圆内，点到圆心的距离 <= 半径
+                //mPoint 中get方法
+                val point = mPoint
+                if (point != null) {
+                    mSelectPointsList.add(point)
+                    //2.改变当前点的状态
+                    point.setStatusPressed()
+                }
+            }
+            MotionEvent.ACTION_MOVE -> {
+                //移动
+                if (mIsTouchPoint) {
+                    //按下的时候一定要在一个点上，不断移动不断判断新的点
+                    val point = mPoint
+                    if (point != null) {
+                        if (!mSelectPointsList.contains(point)) {
+                            //没有点的时候再添加
+                            mSelectPointsList.add(point)
+                        }
+                        //2.改变当前点的状态
+                        point.setStatusPressed()
+                    }
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                //抬起
+                mIsTouchPoint = false
+                //回调密码，如果错误显示错误完要清空
+            }
+            else -> {
+            }
+        }
+        invalidate()
+        return true
+    }
+
     override fun onDraw(canvas: Canvas?) {
         //onDraw会调用多次
         if (!mIsInit) {
@@ -104,21 +193,39 @@ class NineLockPalacesView @JvmOverloads constructor(
                     continue
                 }
                 //绘制外圆
-                mNormalPaint.color = mOuterNormalColor
+                val newPaint = when{
+                    intPoint.statusIsNormal() -> mNormalPaint
+                    intPoint.statusIsError() -> mErrorPaint
+                    intPoint.statusIsPressed() -> mPressedPaint
+                    else -> mNormalPaint
+                }
+
+                newPaint.color = when {
+                    intPoint.statusIsNormal() -> mOuterNormalColor
+                    intPoint.statusIsError() -> mOuterErrorColor
+                    intPoint.statusIsPressed() -> mOuterPressedColor
+                    else -> mOuterNormalColor
+                }
                 canvas.drawCircle(
                     intPoint.centerX.toFloat(),
                     intPoint.centerY.toFloat(),
                     mOutRadio.toFloat(),
-                    mNormalPaint
+                    newPaint
                 )
 
                 //绘制内圆
-                mNormalPaint.color = mInnerNormalColor
+                newPaint.color = when {
+                    intPoint == null -> mInnerNormalColor
+                    intPoint.statusIsNormal() -> mInnerNormalColor
+                    intPoint.statusIsError() -> mInnerErrorColor
+                    intPoint.statusIsPressed() -> mInnerPressedColor
+                    else -> mOuterNormalColor
+                }
                 canvas.drawCircle(
                     intPoint.centerX.toFloat(),
                     intPoint.centerY.toFloat(),
                     (mOutRadio / 6).toFloat(),
-                    mNormalPaint
+                    newPaint
                 )
             }
         }
@@ -184,5 +291,29 @@ class NineLockPalacesView @JvmOverloads constructor(
          * 当前点的状态
          */
         var status: PointStatusEnum = PointStatusEnum.NORMAL
-    )
+    ) {
+        fun setStatusPressed() {
+            status = PointStatusEnum.PRESSED
+        }
+
+        fun setStatusNormal() {
+            status = PointStatusEnum.NORMAL
+        }
+
+        fun setStatusError() {
+            status = PointStatusEnum.ERROR
+        }
+
+        fun statusIsPressed(): Boolean {
+            return status == PointStatusEnum.PRESSED
+        }
+
+        fun statusIsNormal(): Boolean {
+            return status == PointStatusEnum.NORMAL
+        }
+
+        fun statusIsError(): Boolean {
+            return status == PointStatusEnum.ERROR
+        }
+    }
 }
