@@ -124,6 +124,11 @@ class NineLockPalacesView @JvmOverloads constructor(
      */
     private val mSelectPointsList = mutableListOf<Point>()
 
+    /**
+     * 保存的点的集合 todo 具体操作就不加了，我这边默认给 外圈7
+     */
+    private var mSavePointIndexList = mutableListOf<Int>(0, 1, 2, 5, 8)
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val action = event?.action ?: return super.onTouchEvent(event)
         mMoveX = event.x
@@ -132,6 +137,14 @@ class NineLockPalacesView @JvmOverloads constructor(
         when (action) {
             MotionEvent.ACTION_DOWN -> {
                 //按下
+                if (mSelectPointsList.isNotEmpty()) {
+                    for (point in mSelectPointsList) {
+                        point.setStatusNormal()
+                    }
+                    mSelectPointsList.clear()
+                    invalidate()
+                }
+
                 mIsTouchPoint = true
                 //1.判断手指是否在圆内，点到圆心的距离 <= 半径
                 //mPoint 中get方法
@@ -161,6 +174,23 @@ class NineLockPalacesView @JvmOverloads constructor(
                 //抬起
                 mIsTouchPoint = false
                 //回调密码，如果错误显示错误完要清空
+                if (mSavePointIndexList.size != mSelectPointsList.size) {
+                    for (point in mSelectPointsList) {
+                        point.setStatusError()
+                    }
+                } else {
+                    //顺序需要判断
+                    for (index in mSavePointIndexList.indices) {
+                        val saveIndex = mSavePointIndexList[index]
+                        val point = mSelectPointsList[index]
+                        if(point.index != saveIndex){
+                            //下标不一致，错误
+                            for (aPoint in mSelectPointsList) {
+                                aPoint.setStatusError()
+                            }
+                        }
+                    }
+                }
             }
             else -> {
             }
@@ -180,6 +210,107 @@ class NineLockPalacesView @JvmOverloads constructor(
 
         //绘制9宫格
         drawShow(canvas!!)
+        //绘制两个点之间连线
+        drawLine(canvas)
+    }
+
+    /**
+     * 绘制两个点之间连线
+     */
+    private fun drawLine(canvas: Canvas) {
+        if (mSelectPointsList.isEmpty()) {
+            //如果没有点则返回
+            return
+        }
+        //1.获取当前所有保存的连线
+        var lastPoint = mSelectPointsList[0]
+        for (i in 1 until mSelectPointsList.size) {
+            //绘制直线
+            val newLastPoint = mSelectPointsList[i]
+
+            mLinePaint.color = when {
+                lastPoint.statusIsNormal() || lastPoint.statusIsPressed() -> mInnerPressedColor
+                lastPoint.statusIsError() -> mInnerErrorColor
+                else -> mInnerPressedColor
+            }
+
+            drawLine(lastPoint, newLastPoint, canvas, mLinePaint)
+
+            //两个点之间绘制箭头
+            drawArrow(lastPoint, newLastPoint, canvas, mArrowPaint)
+
+            //赋值最新的点 到 变量上
+            lastPoint = newLastPoint
+        }
+
+        //2.获取最后一个点到手点位置的连线
+        //内圆半径， 需要跟绘制内圆的保持一致
+        val inRadio = mOutRadio / 6
+        val checkInRound =
+            NineLockPalaceUtils.checkInRound(
+                lastPoint.centerX.toFloat(),
+                lastPoint.centerY.toFloat(),
+                inRadio.toFloat(),
+                mMoveX,
+                mMoveY
+            )
+        //如果在内圆内 并且 手指已经离开 并且 已经全部选中9宫格 不需要画线
+        if (mIsTouchPoint && !checkInRound && mSelectPointsList.size < 9) {
+            mLinePaint.color = when {
+                lastPoint.statusIsNormal() || lastPoint.statusIsPressed() -> mInnerPressedColor
+                lastPoint.statusIsError() -> mInnerErrorColor
+                else -> mInnerPressedColor
+            }
+
+            drawLine(lastPoint, Point(mMoveX.toInt(), mMoveY.toInt(), -1), canvas, mLinePaint)
+        }
+    }
+
+    /**
+     * 绘制三角箭头
+     */
+    private fun drawArrow(
+        lastPoint: Point,
+        newLastPoint: Point,
+        canvas: Canvas,
+        mArrowPaint: Paint
+    ) {
+
+    }
+
+    /**
+     * 绘制直线
+     */
+    private fun drawLine(
+        startPoint: NineLockPalacesView.Point,
+        endPoint: NineLockPalacesView.Point,
+        canvas: Canvas,
+        paint: Paint
+    ) {
+        //1.获取两个点之间距离
+        val get2PointDistance = NineLockPalaceUtils.get2PointDistance(
+            startPoint.centerX.toFloat(),
+            startPoint.centerY.toFloat(),
+            endPoint.centerX.toFloat(),
+            endPoint.centerY.toFloat()
+        )
+        //内圆半径， 需要跟绘制内圆的保持一致
+        val inRadio = mOutRadio / 6
+        val xValue = endPoint.centerX.toFloat() - startPoint.centerX.toFloat()
+        val yValue = endPoint.centerY.toFloat() - startPoint.centerY.toFloat()
+        // d/ir = xv/dx
+        val dx = xValue * inRadio / get2PointDistance
+        // d/ir = yv/dy
+        val dy = yValue * inRadio / get2PointDistance
+
+        //画线
+        canvas.drawLine(
+            startPoint.centerX + dx,
+            startPoint.centerY + dy,
+            endPoint.centerX - dx,
+            endPoint.centerY - dy,
+            paint
+        )
     }
 
     private fun drawShow(canvas: Canvas) {
@@ -193,7 +324,7 @@ class NineLockPalacesView @JvmOverloads constructor(
                     continue
                 }
                 //绘制外圆
-                val newPaint = when{
+                val newPaint = when {
                     intPoint.statusIsNormal() -> mNormalPaint
                     intPoint.statusIsError() -> mErrorPaint
                     intPoint.statusIsPressed() -> mPressedPaint
@@ -219,7 +350,7 @@ class NineLockPalacesView @JvmOverloads constructor(
                     intPoint.statusIsNormal() -> mInnerNormalColor
                     intPoint.statusIsError() -> mInnerErrorColor
                     intPoint.statusIsPressed() -> mInnerPressedColor
-                    else -> mOuterNormalColor
+                    else -> mInnerNormalColor
                 }
                 canvas.drawCircle(
                     intPoint.centerX.toFloat(),

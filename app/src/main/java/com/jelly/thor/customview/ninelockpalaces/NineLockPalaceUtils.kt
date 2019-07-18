@@ -12,13 +12,17 @@ object NineLockPalaceUtils {
      * 检测是否在圆内
      */
     fun checkInRound(x: Float, y: Float, r: Float, moveX: Float, moveY: Float): Boolean {
-        //x值
-        val lineX = moveX - x
-        //y值
-        val lineY = moveY - y
-        //移动的半径值
-        val lineR2 = lineX.pow(2) + lineY.pow(2)
-        val moveR = sqrt(lineR2)
+        val moveR = get2PointDistance(x, y, moveX, moveY)
         return moveR <= r
+    }
+
+    /**
+     * 获取两个点之间距离
+     */
+    fun get2PointDistance(startX: Float, startY: Float, endX: Float, endY: Float): Float {
+        val lineX = endX - startX
+        val lineY = endY - startY
+        val lineR2 = lineX.pow(2) + lineY.pow(2)
+        return sqrt(lineR2)
     }
 }
