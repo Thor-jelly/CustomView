@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
+import com.jelly.thor.customview.notchline.NotchLineActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
+import com.jelly.thor.customview.statusbar.StatusBarActivity
 import com.jelly.thor.customview.utils.FontStyleEnum
 import com.jelly.thor.customview.utils.setFontStyle
 import kotlinx.android.synthetic.main.activity_main.*
@@ -46,6 +48,16 @@ class MainActivity : AppCompatActivity() {
         click9LockPalaces.setOnClickListener {
             //9宫格解锁样式
             startNewActivity(NineLockPalacesActivity::class.java)
+        }
+
+        clickNotchLine.setOnClickListener {
+            //自定义view缺口线
+            startNewActivity(NotchLineActivity::class.java)
+        }
+
+        clickStatusBar.setOnClickListener {
+            //状态栏测试界面
+            startNewActivity(StatusBarActivity::class.java)
         }
     }
 

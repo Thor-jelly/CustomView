@@ -8,4 +8,11 @@
     <declare-styleable name="Qq6SlidingMenu">
         <attr name="rightPadding" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="NotchLineView">
+        <attr name="bg_color" format="color" />
+        <attr name="dash_color" format="color" />
+        <attr name="dash_width" format="dimension" />
+        <attr name="dash_height" format="dimension" />
+    </declare-styleable>
 </resources>

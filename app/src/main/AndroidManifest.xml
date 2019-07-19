@@ -28,6 +28,10 @@
         <activity android:name=".carhomeitemstyle.CarHomeItemStyleActivity"/>
         <!--9宫格-->
         <activity android:name=".ninelockpalaces.NineLockPalacesActivity"/>
+        <!--状态栏测试activity-->
+        <activity android:name=".statusbar.StatusBarActivity"/>
+        <!--缺口线-->
+        <activity android:name=".notchline.NotchLineActivity"/>
     </application>
 
 </manifest>

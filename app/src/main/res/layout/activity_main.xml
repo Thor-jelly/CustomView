@@ -1,72 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.core.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-            android:id="@+id/clickFontStyle"
-            android:text="我是新字体：中国制造CLICK click 123456"
-            android:gravity="center"
-            android:padding="20dp"
-            android:background="#0f0"
+        android:layout_height="match_parent"
+>
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/clickFontStyle"
+                android:text="我是新字体：中国制造CLICK click 123456"
+                android:gravity="center"
+                android:padding="20dp"
+                android:background="#000"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-            android:id="@+id/clickFontStyleBold"
-            android:text="我是加粗新字体：中国制造CLICK click 123456"
-            android:gravity="center"
-            android:padding="20dp"
-            android:background="#0f0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/clickFontStyleBold"
+                android:text="我是加粗新字体：中国制造CLICK click 123456"
+                android:gravity="center"
+                android:padding="20dp"
+                android:background="#002"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-            android:id="@+id/clickSnapHelpTest"
-            android:text="SnapHelp测试"
-            android:gravity="center"
-            android:padding="20dp"
-            android:textColor="@android:color/white"
-            android:background="#00f"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/clickSnapHelpTest"
+                android:text="SnapHelp测试"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textColor="@android:color/white"
+                android:background="#003"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-            android:id="@+id/clickKuGouSlidingMenu"
-            android:text="仿酷狗侧边栏效果"
-            android:gravity="center"
-            android:padding="20dp"
-            android:background="#f00"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/clickKuGouSlidingMenu"
+                android:text="仿酷狗侧边栏效果"
+                android:gravity="center"
+                android:padding="20dp"
+                android:background="#004"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/clickQq6SlidingMenu"
-        android:text="仿qq6.0侧边栏效果"
-        android:gravity="center"
-        android:padding="20dp"
-        android:background="#ff0"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/clickQq6SlidingMenu"
+                android:text="仿qq6.0侧边栏效果"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textColor="@android:color/white"
+                android:background="#005"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-            android:id="@+id/clickCarHomeItem"
-            android:text="汽车之家折叠列表"
-            android:gravity="center"
-            android:padding="20dp"
-            android:textColor="@android:color/white"
-            android:background="#990"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/clickCarHomeItem"
+                android:text="汽车之家折叠列表"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textColor="@android:color/white"
+                android:background="#006"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-            android:id="@+id/click9LockPalaces"
-            android:text="9宫格解锁样式"
-            android:gravity="center"
-            android:padding="20dp"
-            android:textColor="@android:color/white"
-            android:background="#909"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-</LinearLayout>
+        <TextView
+                android:id="@+id/click9LockPalaces"
+                android:text="9宫格解锁样式"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textColor="@android:color/white"
+                android:background="#007"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/clickNotchLine"
+                android:text="自定义view缺口线"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textColor="@android:color/white"
+                android:background="#008"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/clickStatusBar"
+                android:text="状态栏测试"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textColor="@android:color/white"
+                android:background="#009"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
