@@ -40,7 +40,8 @@ public class StatusBarUtils {
             view.setBackgroundColor(color);
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
             decorView.addView(view);
-            //加0 就不显示
+            //加0 就不显示！为什么？
+            //因为decorView是FrameLayout
             //decorView.addView(view, 0);
 
             //1. 如果不在根布局中加上下代码,会布局到statusBar上

@@ -32,6 +32,8 @@
         <activity android:name=".statusbar.StatusBarActivity"/>
         <!--缺口线-->
         <activity android:name=".notchline.NotchLineActivity"/>
+        <!--自定义behavior-->
+        <activity android:name=".custombehavior.CustomBehaviorActivity"/>
     </application>
 
 </manifest>

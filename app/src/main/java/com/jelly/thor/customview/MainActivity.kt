@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
+import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
@@ -59,6 +60,14 @@ class MainActivity : AppCompatActivity() {
             //状态栏测试界面
             startNewActivity(StatusBarActivity::class.java)
         }
+
+        clickCustomBehavior.setOnClickListener {
+            //自定义behavior
+            startNewActivity(CustomBehaviorActivity::class.java)
+        }
+
+        val a : String ? = null
+        a.isNullOrEmpty()
     }
 
     private fun startNewActivity(cls: Class<*>) {
