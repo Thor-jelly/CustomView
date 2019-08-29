@@ -108,5 +108,15 @@
                 android:background="#00a"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/clickCarNumberKeyboard"
+            android:text="自定义车牌号键盘"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@android:color/white"
+            android:background="#00b"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

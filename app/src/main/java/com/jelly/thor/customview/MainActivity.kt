@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
+import com.jelly.thor.customview.carnumberkeyboard.CarNumberKeyboardActivity
 import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
@@ -66,8 +67,10 @@ class MainActivity : AppCompatActivity() {
             startNewActivity(CustomBehaviorActivity::class.java)
         }
 
-        val a : String ? = null
-        a.isNullOrEmpty()
+        clickCarNumberKeyboard.setOnClickListener {
+            //自定义车牌号键盘
+            startNewActivity(CarNumberKeyboardActivity::class.java)
+        }
     }
 
     private fun startNewActivity(cls: Class<*>) {

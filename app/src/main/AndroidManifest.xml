@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.jelly.thor.customview">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jelly.thor.customview">
 
     <application
-            android:name=".App"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!--酷狗侧边栏-->
-        <activity android:name=".kugou.SlidingKuGouMenuActivity"/>
+        <activity android:name=".kugou.SlidingKuGouMenuActivity" />
         <!--qq6.0效果-->
-        <activity android:name=".qq6.SlidingQq6MenuActivity"/>
+        <activity android:name=".qq6.SlidingQq6MenuActivity" />
 
-        <activity android:name=".snaphelptest.SnapHelpActivity"/>
+        <activity android:name=".snaphelptest.SnapHelpActivity" />
         <!--汽车之家折叠列表-->
-        <activity android:name=".carhomeitemstyle.CarHomeItemStyleActivity"/>
+        <activity android:name=".carhomeitemstyle.CarHomeItemStyleActivity" />
         <!--9宫格-->
-        <activity android:name=".ninelockpalaces.NineLockPalacesActivity"/>
+        <activity android:name=".ninelockpalaces.NineLockPalacesActivity" />
         <!--状态栏测试activity-->
-        <activity android:name=".statusbar.StatusBarActivity"/>
+        <activity android:name=".statusbar.StatusBarActivity" />
         <!--缺口线-->
-        <activity android:name=".notchline.NotchLineActivity"/>
+        <activity android:name=".notchline.NotchLineActivity" />
         <!--自定义behavior-->
-        <activity android:name=".custombehavior.CustomBehaviorActivity"/>
+        <activity android:name=".custombehavior.CustomBehaviorActivity" />
+        <!--        车牌键盘-->
+        <activity android:name=".carnumberkeyboard.CarNumberKeyboardActivity"/>
     </application>
 
 </manifest>
