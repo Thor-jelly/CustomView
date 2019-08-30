@@ -1,6 +1,7 @@
 package com.jelly.thor.customview
 
 import android.app.Application
+import com.didichuxing.doraemonkit.DoraemonKit
 
 /**
  * 类描述：Application<br/>
@@ -16,5 +17,10 @@ class App : Application() {
 
     init {
         mApplication = this
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        DoraemonKit.install(mApplication)
     }
 }

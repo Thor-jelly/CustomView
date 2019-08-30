@@ -2,6 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/keyboard_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text=""
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:focusableInTouchMode="false"
+        android:hint="车牌号 :"
+        android:background="#ACE"
+        />
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
