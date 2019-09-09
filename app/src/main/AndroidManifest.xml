@@ -37,7 +37,9 @@
         <!--自定义behavior-->
         <activity android:name=".custombehavior.CustomBehaviorActivity" />
         <!--        车牌键盘-->
-        <activity android:name=".carnumberkeyboard.CarNumberKeyboardActivity"/>
+        <activity android:name=".carnumberkeyboard.CarNumberKeyboardActivity" />
+        <!--        优惠券view 按比例缩放，形成在任意手机上效果一致-->
+        <activity android:name=".equalscalecouponview.EqualScaleCouponViewActivity" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
 import com.jelly.thor.customview.carnumberkeyboard.CarNumberKeyboardActivity
 import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
+import com.jelly.thor.customview.equalscalecouponview.EqualScaleCouponViewActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
@@ -70,6 +71,11 @@ class MainActivity : AppCompatActivity() {
         clickCarNumberKeyboard.setOnClickListener {
             //自定义车牌号键盘
             startNewActivity(CarNumberKeyboardActivity::class.java)
+        }
+
+        clickEqualScaleCouponViewActivity.setOnClickListener {
+            //优惠券view 生成图片再按比例缩放，形成在任意手机上效果一致
+            startNewActivity(EqualScaleCouponViewActivity::class.java)
         }
     }
 
