@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f00"
+        android:gravity="center"
+        android:padding="20dp"
+        android:textFontWeight="700"
+        android:text="我是默认字体 123456"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/m1Tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f04"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="我是代码设置新字体 123456"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/m2Tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f06"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="我是代码设置新字体加粗 123456"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/m3Tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f07"
+        android:fontFamily="@font/din_alternate_bold"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="我是fontFamily设置新字体 123456"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/m4Tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f08"
+        android:fontFamily="@font/din_alternate_bold"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="我是fontFamily设置加粗新字体 123456"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/m5Tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f09"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="我是从res获取设置新字体 123456(sdk>=O)"
+        android:textColor="@android:color/white" />
+</LinearLayout>

@@ -7,6 +7,7 @@ import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
 import com.jelly.thor.customview.carnumberkeyboard.CarNumberKeyboardActivity
 import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
 import com.jelly.thor.customview.equalscalecouponview.EqualScaleCouponViewActivity
+import com.jelly.thor.customview.fonttest.FontTestActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
@@ -23,11 +24,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //设置新字体
-        clickFontStyle.setFontStyle(FontStyleEnum.DIN_ALTERNATE_BOLD)
-        clickFontStyleBold.setFontStyle(FontStyleEnum.DIN_ALTERNATE_BOLD)
-        //设置新字体加粗
-        clickFontStyleBold.paint.isFakeBoldText = true
+        clickFontStyle.setOnClickListener {
+            //设置新字体
+            startNewActivity(FontTestActivity::class.java)
+        }
 
         clickSnapHelpTest.setOnClickListener {
             startActivity(Intent(this, SnapHelpActivity::class.java))

@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
 
+        <!--字体测试-->
+        <activity android:name=".fonttest.FontTestActivity" />
         <!--酷狗侧边栏-->
         <activity android:name=".kugou.SlidingKuGouMenuActivity" />
         <!--qq6.0效果-->

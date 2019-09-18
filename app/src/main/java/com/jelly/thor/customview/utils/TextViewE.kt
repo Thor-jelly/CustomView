@@ -14,12 +14,13 @@ enum class FontStyleEnum {
 }
 
 private val DIN_ALTERNATE_BOLD = Typeface.createFromAsset(App.mApplication.assets, "fonts/DINAlternateBold.ttf")
-    ?: throw IllegalArgumentException("检查字体保存路径是否有：fonts/DINAlternateBold.ttf")
+    ?: throw IllegalArgumentException("检查字体保存路径是否有：fonts/din_alternate_bold.ttf")
 
 /**
- * 设置字体样式
+ * 设置字体样式，默认不加粗
  */
-fun TextView?.setFontStyle(fontStyle: FontStyleEnum) {
+@JvmOverloads
+fun TextView?.setFontStyle(fontStyle: FontStyleEnum, isBold: Boolean = false) {
     if (this == null) {
         return
     }
@@ -27,4 +28,7 @@ fun TextView?.setFontStyle(fontStyle: FontStyleEnum) {
         FontStyleEnum.DIN_ALTERNATE_BOLD -> DIN_ALTERNATE_BOLD
     }
     this.typeface = typeface
+    if (isBold) {
+        this.paint.isFakeBoldText = true
+    }
 }

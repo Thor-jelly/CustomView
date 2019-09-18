@@ -16,17 +16,16 @@
             android:background="#000"
             android:gravity="center"
             android:padding="20dp"
-            android:text="我是新字体：中国制造CLICK click 123456"
+            android:text="点击跳转到字体test activity"
             android:textColor="@android:color/white" />
 
         <TextView
-            android:id="@+id/clickFontStyleBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#002"
             android:gravity="center"
             android:padding="20dp"
-            android:text="我是加粗新字体：中国制造CLICK click 123456"
+            android:text="还未添加"
             android:textColor="@android:color/white" />
 
         <TextView
