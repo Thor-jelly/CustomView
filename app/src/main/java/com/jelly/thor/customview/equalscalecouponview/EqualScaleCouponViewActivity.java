@@ -1,10 +1,8 @@
 package com.jelly.thor.customview.equalscalecouponview;
 
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,27 +40,7 @@ public class EqualScaleCouponViewActivity extends AppCompatActivity {
         testCl.post(new Runnable() {
             @Override
             public void run() {
-                //生成testCl view截图
-                Point size = new Point();
-                getWindow().getWindowManager().getDefaultDisplay().getSize(size);
-                int px30I = dp2px(30);
-
-                final int newXI = size.x - px30I;
-                final int newYI = newXI * 76 / 345;
-
-                testCl.setPivotX(0);
-                testCl.setPivotY(0);
-
-
-                float scaleX = newXI / (float) dp2px(345);
-                float scaleY = newYI / (float)dp2px(76);
-                testCl.setScaleX(scaleX);
-                testCl.setScaleY(scaleY);
-
-                ViewGroup.LayoutParams layoutParams = testClParentLl.getLayoutParams();
-                layoutParams.width = newXI;
-                layoutParams.height = newYI;
-                testClParentLl.setLayoutParams(layoutParams);
+                ViewEKt.scaleView(testCl, false);
             }
         });
     }
