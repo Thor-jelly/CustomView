@@ -62,10 +62,16 @@
     </LinearLayout>
 
 
+    <View
+        android:background="#00f"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </LinearLayout>

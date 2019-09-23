@@ -40,7 +40,7 @@ public class EqualScaleCouponViewActivity extends AppCompatActivity {
         testCl.post(new Runnable() {
             @Override
             public void run() {
-                ViewEKt.scaleView(testCl, false);
+                ViewEKt.scaleView(testCl, true);
             }
         });
     }

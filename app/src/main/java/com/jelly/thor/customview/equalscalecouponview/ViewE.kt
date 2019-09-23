@@ -1,15 +1,12 @@
 package com.jelly.thor.customview.equalscalecouponview
 
 import android.graphics.Point
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginTop
 import kotlin.math.roundToInt
 
 /**
- * 类描述：//TODO:(这里用一句话描述这个方法的作用)    <br/>
  * 创建人：吴冬冬<br/>
  * 创建时间：2019/9/20 19:59 <br/>
  */
@@ -42,19 +39,32 @@ fun View?.scaleView(
     val scaleX = newXI / childViewWidth.toFloat()
     val scaleY = newYI / childViewHeight.toFloat()
 
-    if (isFullView) {
-        val parentPView = parentView.parent as ViewGroup
-        val parentPViewIndex = parentPView.indexOfChild(parentView)
 
-        var parentLayoutTopDistance = 0
+    val setFullViewHeight: Int
+    if (isFullView) {
+        //放大view外侧view的父布局
+        val parentPView = parentView.parent as ViewGroup
+        //放大view外层view在其父布局未知
+        val parentPViewIndex = parentPView.indexOfChild(parentView)
+        //放大view外层view 其父布局一共有多少子view
+        val allParentChildCount = parentPView.childCount
+        //不是放大view的高度
+        var noScaleViewHeight = 0
         if (parentPViewIndex > 0) {
-            for (i in 0 until parentPViewIndex) {
-                parentLayoutTopDistance += parentPView.getChildAt(i).height
+            for (i in 0 until allParentChildCount) {
+                if (i == parentPViewIndex) {
+                    continue
+                }
+                noScaleViewHeight += parentPView.getChildAt(i).height
             }
         }
 
-        val newChildViewHeight = (size.y - parentView.top) / scaleY
+        setFullViewHeight = size.y - noScaleViewHeight
+
+        val newChildViewHeight = setFullViewHeight / scaleY
         this.layoutParams.height = newChildViewHeight.roundToInt()
+    } else {
+        setFullViewHeight =  ViewGroup.LayoutParams.MATCH_PARENT
     }
 
     this.scaleX = scaleX
@@ -62,6 +72,10 @@ fun View?.scaleView(
 
     val layoutParams = parentView.layoutParams
     layoutParams.width = newXI
-    layoutParams.height = if (isFullView) ViewGroup.LayoutParams.MATCH_PARENT else newYI
+    layoutParams.height = if (isFullView) {
+       setFullViewHeight
+    } else {
+        newYI
+    }
     parentView.layoutParams = layoutParams
 }
