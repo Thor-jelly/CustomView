@@ -42,6 +42,9 @@
         <activity android:name=".carnumberkeyboard.CarNumberKeyboardActivity" />
         <!--        优惠券view 按比例缩放，形成在任意手机上效果一致-->
         <activity android:name=".equalscalecouponview.EqualScaleCouponViewActivity" />
+        <!--        tab悬浮在最上方-->
+        <activity android:name=".tablayoutfloattop.TabLayoutFloatTopActivity" />
+        <activity android:name=".tablayoutfloattop.TabLayoutFloatTopTest1Activity" />
     </application>
 
 </manifest>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".tablayoutfloattop.TabLayoutFloatTopTest1Activity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            app:contentScrim="#000000"
+            app:layout_scrollFlags="scroll">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="banner区域"
+                android:textColor="@android:color/white" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="悬浮部分" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="针对跨浏览器的本地文件泄露漏洞的分析你知道吗?
+                你可以轻松把普通的文件选择器变成文件夹选择器，为此
+                ，只需将属性“webkitdirectory”添加到type ='file'
+                的给定输入元素中就行了。 当然，与文件夹选择器不同的是
+                ，您最终会加载给定文件夹中的所有文件。这是一个明显的漏洞
+                ，机不可失，一阵忙活之后，我最终在三种主流浏览器中找到了
+                一些相关的安全漏洞。 下面，我会针对不同的浏览器分别进行
+                介绍。 火狐浏览器 我已经提交了三个与Mozilla的webkitdire
+                ctory功能有关的安全漏洞。幸运的是，文件夹选择器仅在Mozil
+                la的Nightly版本的浏览器中提供了相应的实现，这个版本是在
+                稳定版本发布之前用来测试新功能的。 Bug 1295914——webkitd
+                irectory可以用来引诱用户允许访问任意文件夹(SEC-MEDIUM)
+                我报告的文件夹选择器方面的第一个安全漏洞与不良语义有关。
+                这个安全漏洞是受到了 Google Chrome中修复的一个漏洞 的启
+                发而找到的，这种漏洞可用来欺骗毫无戒心的用户。 Bug 13193
+                70(CVE-2017-5414)webkitdirectory——操作系统用户名泄露(S
+                EC-MEDIUM) 我认为第二个漏洞是泄露本地文件的关键所在。这
+                里的问题在于，当文件选择器被打开一次后，那么第二次打开它
+                时，它会“降级”文件夹。 所以我制作了一个PoC，其效果为：如
+                果我们诱骗受害者按住“Enter”键，同时弹出一个文件夹，
+                “挑选”某些文件夹。 为了获取操作系统用户名，受害者需要按住
+                用于两个文件夹对话框的确认按钮，因为(在Windows上)默认目
+                录是'C：\ Users \ {username} \ Desktp '。 这是利用这个
+                漏洞时所依赖的主要用户互动，这主要是受到了一个 较旧的Moz
+                illa漏洞 的启发。另一种方式是欺骗用户反复按下某个位置并
+                弹出文件夹，这样的话“confirm pick”按钮将被自动按下。 Bu
+                g 1338637——任意输入本地文件[webkitdirectory](SEC-MEDI
+                UM) 我发现，如果在用户按下“Enter”键时弹出一个文件夹的话
+                ，那么我们可以欺骗受害者，使我们可以访问默认目录中的所有
+                文件。当然，这种方式还是有一些局限性的，因为在Windows操
+                作系统上，似乎只有“我的文档”文件夹受此影响。 如果它是一
+                个我的文档之外的文件夹，如“桌面”(默认)，则不会加载任何东西。
+                但是，在其他操作系统上，情况就不同了。 幸运的是，我们前面说
+                过有一个漏洞，其中文件夹将在文件夹选择器使用后“降级”，所以
+                这里可以利用这一点。 以下是原始的PoC。请注意，单凭第一个安
+                才最终得到了一个PoC针对跨浏览器的本地文件泄露漏洞的分析你知道吗?
+                你可以轻松把普通的文件选择器变成文件夹选择器，为此
+                ，只需将属性“webkitdirectory”添加到type ='file'
+                的给定输入元素中就行了。 当然，与文件夹选择器不同的是
+                ，您最终会加载给定文件夹中的所有文件。这是一个明显的漏洞
+                ，机不可失，一阵忙活之后，我最终在三种主流浏览器中找到了
+                一些相关的安全漏洞。 下面，我会针对不同的浏览器分别进行
+                介绍。 火狐浏览器 我已经提交了三个与Mozilla的webkitdire
+                ctory功能有关的安全漏洞。幸运的是，文件夹选择器仅在Mozil
+                la的Nightly版本的浏览器中提供了相应的实现，这个版本是在
+                稳定版本发布之前用来测试新功能的。 Bug 1295914——webkitd
+                irectory可以用来引诱用户允许访问任意文件夹(SEC-MEDIUM)
+                我报告的文件夹选择器方面的第一个安全漏洞与不良语义有关。
+                这个安全漏洞是受到了 Google Chrome中修复的一个漏洞 的启
+                发而找到的，这种漏洞可用来欺骗毫无戒心的用户。 Bug 13193
+                70(CVE-2017-5414)webkitdirectory——操作系统用户名泄露(S
+                EC-MEDIUM) 我认为第二个漏洞是泄露本地文件的关键所在。这
+                里的问题在于，当文件选择器被打开一次后，那么第二次打开它
+                时，它会“降级”文件夹。 所以我制作了一个PoC，其效果为：如
+                果我们诱骗受害者按住“Enter”键，同时弹出一个文件夹，
+                “挑选”某些文件夹。 为了获取操作系统用户名，受害者需要按住
+                用于两个文件夹对话框的确认按钮，因为(在Windows上)默认目
+                录是'C：\ Users \ {username} \ Desktp '。 这是利用这个
+                漏洞时所依赖的主要用户互动，这主要是受到了一个 较旧的Moz
+                illa漏洞 的启发。另一种方式是欺骗用户反复按下某个位置并
+                弹出文件夹，这样的话“confirm pick”按钮将被自动按下。 Bu
+                g 1338637——任意输入本地文件[webkitdirectory](SEC-MEDI
+                UM) 我发现，如果在用户按下“Enter”键时弹出一个文件夹的话
+                ，那么我们可以欺骗受害者，使我们可以访问默认目录中的所有
+                文件。当然，这种方式还是有一些局限性的，因为在Windows操
+                作系统上，似乎只有“我的文档”文件夹受此影响。 如果它是一
+                个我的文档之外的文件夹，如“桌面”(默认)，则不会加载任何东西。
+                但是，在其他操作系统上，情况就不同了。 幸运的是，我们前面说
+                过有一个漏洞，其中文件夹将在文件夹选择器使用后“降级”，所以
+                这里可以利用这一点。 以下是原始的PoC。请注意，单凭第一个安
+                才最终得到了一个PoC" />
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

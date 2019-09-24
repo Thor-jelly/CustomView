@@ -14,8 +14,7 @@ import com.jelly.thor.customview.notchline.NotchLineActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
 import com.jelly.thor.customview.statusbar.StatusBarActivity
-import com.jelly.thor.customview.utils.FontStyleEnum
-import com.jelly.thor.customview.utils.setFontStyle
+import com.jelly.thor.customview.tablayoutfloattop.TabLayoutFloatTopActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         clickFontStyle.setOnClickListener {
             //设置新字体
             startNewActivity(FontTestActivity::class.java)
+        }
+
+        clickTabLayoutFloatTop.setOnClickListener {
+            //tab悬浮在最上方
+            startNewActivity(TabLayoutFloatTopActivity::class.java)
         }
 
         clickSnapHelpTest.setOnClickListener {
