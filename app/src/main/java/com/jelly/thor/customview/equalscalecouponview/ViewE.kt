@@ -23,14 +23,13 @@ fun View?.scaleView(
     val parentView =
         this.parent as ViewGroup ?: throw IllegalArgumentException("当前缩放view必须用一个父布局包裹")
 
-    //生成testCl view截图
-    val size = Point()
-    ((this.context) as AppCompatActivity).window.windowManager.defaultDisplay.getSize(size)
+    //放大view外侧view的父布局
+    val parentPView = parentView.parent as ViewGroup
 
     val childViewHeight = this.measuredHeight
     val childViewWidth = this.measuredWidth
 
-    val newXI = size.x
+    val newXI = parentPView.width
     val newYI = newXI * childViewHeight / childViewWidth
 
     this.pivotX = 0f
@@ -42,8 +41,6 @@ fun View?.scaleView(
 
     val setFullViewHeight: Int
     if (isFullView) {
-        //放大view外侧view的父布局
-        val parentPView = parentView.parent as ViewGroup
         //放大view外层view在其父布局未知
         val parentPViewIndex = parentPView.indexOfChild(parentView)
         //放大view外层view 其父布局一共有多少子view
@@ -59,7 +56,7 @@ fun View?.scaleView(
             }
         }
 
-        setFullViewHeight = size.y - noScaleViewHeight
+        setFullViewHeight = parentPView.height - noScaleViewHeight
 
         val newChildViewHeight = setFullViewHeight / scaleY
         this.layoutParams.height = newChildViewHeight.roundToInt()
