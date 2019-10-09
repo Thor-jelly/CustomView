@@ -44,16 +44,32 @@ class CustomKeyboard(
     private val mOtherView: ViewGroup
 ) {
     /**
-     * 提供set方法
      * 可以设置键盘类型，默认车牌号键盘
      */
     var mKeyboardTypeEnum = KeyboardTypeEnum.CAR_NUMBER_PROVINCE
+        set(value) {
+            when (value) {
+                KeyboardTypeEnum.CAR_NUMBER_PROVINCE -> {
+                    //切换为 车牌键盘
+                    mKeyboardView.keyboard = mCarNumberProvinceKeyboard
+                }
+                KeyboardTypeEnum.NUMBER_AND_LETTER->{
+                    //切换为 数字字母键盘
+                    mKeyboardView.keyboard = mNumberAndLettersKeyboard
+                }
+            }
+            field = value
+        }
 
     /**
      * 提供set方法
      * 始值是否显示预览
      */
     var mKeyboardIsPreviewEnabled = false
+        set(value) {
+            mKeyboardView.isPreviewEnabled = value
+            field = value
+        }
 
     /**
      * 如果是nsv需要记录scrollY距离
@@ -125,6 +141,9 @@ class CustomKeyboard(
                 val start = mCurrentKeyboardEt.selectionStart
                 val end = mCurrentKeyboardEt.selectionEnd
                 when (primaryCode) {
+                    Keyboard.KEYCODE_DONE ->
+                        //完成
+                        hintKeyboardView()
                     Keyboard.KEYCODE_CANCEL ->
                         //隐藏键盘
                         hintKeyboardView()
@@ -147,10 +166,23 @@ class CustomKeyboard(
                 }
             }
 
-            override fun swipeRight() {
+            override fun onPress(primaryCode: Int) {
+                if (mKeyboardIsPreviewEnabled) {
+                    when (primaryCode) {
+                        Keyboard.KEYCODE_DONE,
+                        Keyboard.KEYCODE_CANCEL,
+                        Keyboard.KEYCODE_DELETE,
+                        Keyboard.KEYCODE_MODE_CHANGE -> {
+                            keyboardView.isPreviewEnabled = false
+                        }
+                        else -> {
+                            keyboardView.isPreviewEnabled = true
+                        }
+                    }
+                }
             }
 
-            override fun onPress(primaryCode: Int) {
+            override fun swipeRight() {
             }
 
             override fun onRelease(primaryCode: Int) {
@@ -175,17 +207,15 @@ class CustomKeyboard(
     /**
      * 切换接盘
      */
-    private fun switchKeyboard(keyboardTypeEnum: KeyboardTypeEnum) {
-        when (keyboardTypeEnum) {
+    private fun switchKeyboard(oldKeyboardTypeEnum: KeyboardTypeEnum) {
+        mKeyboardTypeEnum = when (oldKeyboardTypeEnum) {
             KeyboardTypeEnum.NUMBER_AND_LETTER -> {
                 //原数字字母键盘 切换为 车牌键盘
-                mKeyboardTypeEnum = KeyboardTypeEnum.CAR_NUMBER_PROVINCE
-                mKeyboardView.keyboard = mCarNumberProvinceKeyboard
+                KeyboardTypeEnum.CAR_NUMBER_PROVINCE
             }
             KeyboardTypeEnum.CAR_NUMBER_PROVINCE -> {
                 //原车牌键盘 切换为 数字字母键盘
-                mKeyboardTypeEnum = KeyboardTypeEnum.NUMBER_AND_LETTER
-                mKeyboardView.keyboard = mNumberAndLettersKeyboard
+                KeyboardTypeEnum.NUMBER_AND_LETTER
             }
         }
     }

@@ -66,6 +66,7 @@ public class CarNumberKeyboardActivity extends AppCompatActivity {
                 keyboardParentView,
                 mNsv
         );
+        customKeyboard.setMKeyboardIsPreviewEnabled(true);
         customKeyboard.bind(mKeyboardEt);
     }
 
