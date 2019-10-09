@@ -7,7 +7,7 @@
 <activity android:name=".kugou.SlidingKuGouMenuActivity" />
 <!--qq6.0效果-->
 <activity android:name=".qq6.SlidingQq6MenuActivity" />
-
+<!--RecyclerView SnapHelp测试-->
 <activity android:name=".snaphelptest.SnapHelpActivity" />
 <!--汽车之家折叠列表-->
 <activity android:name=".carhomeitemstyle.CarHomeItemStyleActivity" />
