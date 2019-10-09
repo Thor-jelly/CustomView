@@ -1,6 +1,7 @@
 # CustomView
 自定义view学习
 
+```
 <!--字体测试-->
 <activity android:name=".fonttest.FontTestActivity" />
 <!--酷狗侧边栏-->
@@ -26,3 +27,4 @@
 <!--tab悬浮在最上方-->
 <activity android:name=".tablayoutfloattop.TabLayoutFloatTopActivity" />
 <activity android:name=".tablayoutfloattop.TabLayoutFloatTopTest1Activity" />
+```
