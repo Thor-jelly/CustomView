@@ -10,8 +10,16 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+    var a = 1
+    private val aaa
+        get() = a++
     @Test
     fun addition_isCorrect() {
+        println("$aaa")
+        println("$aaa")
+        println("$aaa")
+        println("$aaa")
+        println("$aaa")
         assertEquals(4, 2 + 2)
     }
 }
