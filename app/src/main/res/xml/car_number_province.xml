@@ -14,6 +14,16 @@
             android:keyEdgeFlags="left" />
     </Row>
 
+    <Row android:keyHeight="25dp">
+        <Key
+            android:codes="-4"
+            android:horizontalGap="85%p"
+            android:keyWidth="15%p"
+            android:keyEdgeFlags="right"
+            android:keyLabel="完成"
+            android:verticalGap="8dp" />
+    </Row>
+
     <Row>
         <Key
             android:codes="20140"
@@ -177,8 +187,8 @@
         <Key
             android:codes="-5"
             android:horizontalGap="11.9%p"
-            android:isRepeatable="true"
             android:keyWidth="12.85%p"
             android:keyIcon="@drawable/car_number_keyboard_delete" />
+        <!--            android:isRepeatable="true"-->
     </Row>
 </Keyboard>

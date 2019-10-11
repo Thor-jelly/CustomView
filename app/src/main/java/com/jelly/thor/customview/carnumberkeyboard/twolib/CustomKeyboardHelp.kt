@@ -4,6 +4,7 @@ import android.content.Context
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ import java.lang.reflect.InvocationTargetException
  * 创建人：吴冬冬<br/>
  * 创建时间：2019/10/8 18:57 <br/>
  */
-class CustomKeyboard(
+class CustomKeyboardHelp(
     /**
      * 上线文
      */
@@ -53,7 +54,7 @@ class CustomKeyboard(
                     //切换为 车牌键盘
                     mKeyboardView.keyboard = mCarNumberProvinceKeyboard
                 }
-                KeyboardTypeEnum.NUMBER_AND_LETTER->{
+                KeyboardTypeEnum.NUMBER_AND_LETTER -> {
                     //切换为 数字字母键盘
                     mKeyboardView.keyboard = mNumberAndLettersKeyboard
                 }
@@ -132,6 +133,7 @@ class CustomKeyboard(
         keyboardView.isPreviewEnabled = mKeyboardIsPreviewEnabled
         //添加监听
         keyboardView.setOnKeyboardActionListener(object : KeyboardView.OnKeyboardActionListener {
+            @Suppress("SpellCheckingInspection")
             override fun onKey(primaryCode: Int, keyCodes: IntArray) {
                 if (!::mCurrentKeyboardEt.isInitialized) {
                     throw RuntimeException("请先调用bind方法！")
@@ -147,22 +149,101 @@ class CustomKeyboard(
                     Keyboard.KEYCODE_CANCEL ->
                         //隐藏键盘
                         hintKeyboardView()
-                    Keyboard.KEYCODE_DELETE ->
+                    Keyboard.KEYCODE_DELETE -> {
                         //回退键，删除字符
                         if (editable.isNotEmpty()) {
                             if (start == end) { //光标开始和结束位置相同, 即没有选中内容
+                                if (start <= 0) {
+                                    return
+                                }
                                 editable.delete(start - 1, start)
                             } else { //光标开始和结束位置不同, 即选中EditText中的内容
                                 editable.delete(start, end)
                             }
                         }
-                    Keyboard.KEYCODE_MODE_CHANGE ->
+                        if (keyboardView is CarNumberKeyboardView) {
+                            //如果按键可以重复触发，这里有问题
+                            //车牌号键盘，如果被清空或者删除第一个字符即中文 切换为中文键盘
+                            if (editable.isEmpty() || start == 1) {
+                                switchChangeKeyboard(KeyboardTypeEnum.NUMBER_AND_LETTER)
+                            }
+                        }
+                    }
+                    Keyboard.KEYCODE_MODE_CHANGE -> {
                         //键盘切换
-                        switchKeyboard(mKeyboardTypeEnum)
-                    else ->
+                        if (keyboardView is CarNumberKeyboardView) {
+                            if (editable.isEmpty() && KeyboardTypeEnum.CAR_NUMBER_PROVINCE == mKeyboardTypeEnum) {
+                                return
+                            }
+                        }
+                        switchChangeKeyboard(mKeyboardTypeEnum)
+                    }
+                    else -> {
                         // 输入键盘值
                         // editable.insert(start, Character.toString((char) primaryCode));
-                        editable.replace(start, end, Character.toString(primaryCode.toChar()))
+                        //当前按键值
+                        val pressKeyStr = primaryCode.toChar().toString()
+                        if (keyboardView is CarNumberKeyboardView) {
+                            //当前输入框值 + 按键值
+                            val nowInputStr = with(editable) {
+                                val oldEtStr = toString()
+                                val oldEtStrLength = oldEtStr.length
+                                when {
+                                    start == 0 -> {
+                                        //输入在最前
+                                        pressKeyStr + oldEtStr
+                                    }
+                                    oldEtStrLength == start -> {
+                                        //输入在最后
+                                        oldEtStr + pressKeyStr
+                                    }
+                                    else -> {
+                                        //输入在中间
+                                        oldEtStr.substring(
+                                            0,
+                                            start
+                                        ) + pressKeyStr + oldEtStr.subSequence(
+                                            start,
+                                            editable.length
+                                        )
+                                    }
+                                }
+                            }
+                            val provinceRegx =
+                                "[京|津|渝|沪|冀|晋|辽|吉|黑|苏|浙|皖|闽|赣|鲁|豫|鄂|湘|粤|琼|川|贵|云|陕|甘|青|蒙|桂|宁|新|藏|港|澳]"
+                            val lettersRegx = "Q|W|E|R|T|Y|U|I|O|P|A|S|D|F|G|H|J|K|L|Z|X|C|V|B|N|M"
+                            val numberAndLettersRegx =
+                                "[$lettersRegx][1|2|3|4|5|6|7|8|9|0|$lettersRegx|挂]"
+                            val allRegx = "^${provinceRegx}(${numberAndLettersRegx}*)*$"
+                            //判断如果是输入开始为中文，并且是第一位 切换为数字 字母键盘
+                            if (editable.isEmpty()) {
+                                if (nowInputStr.contains(provinceRegx.toRegex())) {
+                                    switchChangeKeyboard(KeyboardTypeEnum.CAR_NUMBER_PROVINCE)
+                                } else {
+                                    //如果输入数字字母不允许填入
+                                    return
+                                }
+                            } else if (editable.length == 1) {
+                                //第二位只能输入英文
+                                if (!nowInputStr.contains("[$lettersRegx]".toRegex())) {
+                                    return
+                                }
+                                if (mKeyboardTypeEnum == KeyboardTypeEnum.CAR_NUMBER_PROVINCE) {
+                                    //切换为 数字 字母键盘
+                                    switchChangeKeyboard(KeyboardTypeEnum.CAR_NUMBER_PROVINCE)
+                                }
+                            } else {
+                                if (!nowInputStr.contains(allRegx.toRegex())) {
+                                    return
+                                }
+                                if (mKeyboardTypeEnum == KeyboardTypeEnum.CAR_NUMBER_PROVINCE) {
+                                    //切换为 数字 字母键盘
+                                    switchChangeKeyboard(KeyboardTypeEnum.CAR_NUMBER_PROVINCE)
+                                }
+                            }
+                        }
+                        editable.replace(start, end, pressKeyStr)
+                    }
                 }
             }
 
@@ -207,7 +288,7 @@ class CustomKeyboard(
     /**
      * 切换接盘
      */
-    private fun switchKeyboard(oldKeyboardTypeEnum: KeyboardTypeEnum) {
+    private fun switchChangeKeyboard(oldKeyboardTypeEnum: KeyboardTypeEnum) {
         mKeyboardTypeEnum = when (oldKeyboardTypeEnum) {
             KeyboardTypeEnum.NUMBER_AND_LETTER -> {
                 //原数字字母键盘 切换为 车牌键盘

@@ -1,7 +1,12 @@
 package com.jelly.thor.customview.carnumberkeyboard;
 
+import android.graphics.Rect;
 import android.inputmethodservice.Keyboard;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DisplayCutout;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -10,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.jelly.thor.customview.R;
-import com.jelly.thor.customview.carnumberkeyboard.twolib.CustomKeyboard;
+import com.jelly.thor.customview.carnumberkeyboard.twolib.CustomKeyboardHelp;
 import com.jelly.thor.customview.carnumberkeyboard.twolib.KeyboardTypeEnum;
+
+import java.util.List;
 
 /**
  * 类描述：车牌键盘 <br/>
@@ -57,10 +64,9 @@ public class CarNumberKeyboardActivity extends AppCompatActivity {
 
         mNsv = findViewById(R.id.nsv);
 
-
         LinearLayout keyboardParentView = (LinearLayout) findViewById(R.id.keyboard_parent_view);
 
-        CustomKeyboard customKeyboard = new CustomKeyboard(this,
+        CustomKeyboardHelp customKeyboard = new CustomKeyboardHelp(this,
                 R.layout.activity_car_number_keyboardview,
                 R.id.keyboard_view,
                 keyboardParentView,

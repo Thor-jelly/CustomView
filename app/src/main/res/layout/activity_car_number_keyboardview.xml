@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.inputmethodservice.KeyboardView
+    <com.jelly.thor.customview.carnumberkeyboard.twolib.CarNumberKeyboardView
         android:id="@+id/keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E0E3EC"
-        android:keyBackground="@drawable/keyboard_item_bg"
+        android:keyBackground="@drawable/bg_car_number_keyboardview_item"
         android:keyPreviewHeight="45dp"
-        android:keyPreviewOffset="0dp"
+        android:keyPreviewOffset="8dp"
+        android:keyPreviewLayout="@layout/activity_car_number_keyboardview_preview"
         android:keyTextColor="@android:color/black"
         android:keyTextSize="20dp"
         android:paddingTop="10dp"
