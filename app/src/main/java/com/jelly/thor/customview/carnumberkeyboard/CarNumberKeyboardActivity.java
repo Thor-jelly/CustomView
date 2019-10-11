@@ -35,20 +35,6 @@ public class CarNumberKeyboardActivity extends AppCompatActivity {
     private AppCompatEditText mKeyboardEt;
     private ViewGroup mNsv;
 
-    /**
-     * 当前键盘选中类型
-     */
-    private KeyboardTypeEnum mKeyboardTypeEnum = KeyboardTypeEnum.NUMBER_AND_LETTER;
-
-
-    /**
-     * 数字字母键盘
-     */
-    private Keyboard mNumberAndLettersKeyboard;
-    /**
-     * 车牌号键盘
-     */
-    private Keyboard mCarNumberProvince;
     private CustomKeyboardHelp mCustomKeyboard;
     private int mKeyType = 0;
     private TextView mTv;
