@@ -1,12 +1,7 @@
 package com.jelly.thor.customview.carnumberkeyboard;
 
-import android.graphics.Rect;
 import android.inputmethodservice.Keyboard;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DisplayCutout;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -17,8 +12,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import com.jelly.thor.customview.R;
 import com.jelly.thor.customview.carnumberkeyboard.twolib.CustomKeyboardHelp;
 import com.jelly.thor.customview.carnumberkeyboard.twolib.KeyboardTypeEnum;
-
-import java.util.List;
 
 /**
  * 类描述：车牌键盘 <br/>
