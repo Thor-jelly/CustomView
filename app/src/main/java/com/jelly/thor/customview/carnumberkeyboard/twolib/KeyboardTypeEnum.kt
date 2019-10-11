@@ -7,6 +7,10 @@ package com.jelly.thor.customview.carnumberkeyboard.twolib
  */
 enum class KeyboardTypeEnum {
     /**
+     * 系统键盘
+     */
+    SYSTEM,
+    /**
      * 数字字母
      */
     NUMBER_AND_LETTER,

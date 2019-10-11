@@ -48,6 +48,7 @@ class CustomKeyboardHelp(
      */
     var mKeyboardTypeEnum = KeyboardTypeEnum.CAR_NUMBER_PROVINCE
         set(value) {
+            field = value
             when (value) {
                 KeyboardTypeEnum.CAR_NUMBER_PROVINCE -> {
                     //切换为 车牌键盘
@@ -57,8 +58,10 @@ class CustomKeyboardHelp(
                     //切换为 数字字母键盘
                     mKeyboardView.keyboard = mNumberAndLettersKeyboard
                 }
+                KeyboardTypeEnum.SYSTEM -> {
+                    //切换为系统个键盘,不需要操作
+                }
             }
-            field = value
         }
 
     /**
@@ -297,6 +300,10 @@ class CustomKeyboardHelp(
                 //原车牌键盘 切换为 数字字母键盘
                 KeyboardTypeEnum.NUMBER_AND_LETTER
             }
+            KeyboardTypeEnum.SYSTEM -> {
+                //系统键盘
+                KeyboardTypeEnum.SYSTEM
+            }
         }
     }
 
@@ -336,13 +343,36 @@ class CustomKeyboardHelp(
     fun bind(et: AppCompatEditText) {
         mCurrentKeyboardEt = et
 
+        //输入框焦点监听
         mCurrentKeyboardEt.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
+                showKeyboardView(v)
+            } else {
+                hintKeyboardView()
+            }
+        }
+    }
+
+    /**
+     * 显示键盘
+     */
+    private fun showKeyboardView(
+        v: View
+    ) {
+
+        when (mKeyboardTypeEnum) {
+            KeyboardTypeEnum.SYSTEM -> {
+                //显示系统键盘
+                showSystemKeyBoard(mContext as AppCompatActivity)
+            }
+            else -> {
+                //显示自定义键盘
                 mKeyboardEt2Bottom = v.bottom
 
-                //123
                 hideSystemKeyBoard(mContext as AppCompatActivity, mCurrentKeyboardEt)
-                mKeyboardInflaterParentView.visibility = View.VISIBLE
+                if (mKeyboardInflaterParentView.visibility != View.VISIBLE) {
+                    mKeyboardInflaterParentView.visibility = View.VISIBLE
+                }
                 mKeyboardInflaterParentView.post {
                     mKeyboardViewHeight = mKeyboardInflaterParentView.height
 
@@ -374,10 +404,7 @@ class CustomKeyboardHelp(
                             }
                         }
                     }
-
                 }
-            } else {
-                hintKeyboardView()
             }
         }
     }
@@ -387,31 +414,48 @@ class CustomKeyboardHelp(
      * 隐藏自定义键盘方法
      */
     fun hintKeyboardView() {
-        if (!::mCurrentKeyboardEt.isInitialized) {
-            throw RuntimeException("请先调用bind方法！")
-        }
-
-        mKeyboardInflaterParentView.visibility = View.GONE
-        if (mCurrentOtherViewIsSetBottom) {
-            mCurrentOtherViewIsSetBottom = false
-            mKeyboardInflaterParentView.post {
-                if (mOtherView is NestedScrollView) {
-                    mOtherView.setPadding(
-                        mOtherView.paddingStart,
-                        mOtherView.paddingTop,
-                        mOtherView.paddingEnd,
-                        mOtherView.paddingBottom - mKeyboardViewHeight
-                    )
-                } else {
-                    val p = mOtherView.layoutParams as ViewGroup.MarginLayoutParams
-                    p.topMargin = p.topMargin + mKeyboardViewHeight
-                    mOtherView.layoutParams = p
+        when (mKeyboardTypeEnum) {
+            KeyboardTypeEnum.SYSTEM -> {
+                hideSystemKeyBoard(mContext as AppCompatActivity, mCurrentKeyboardEt)
+            }
+            else -> {
+                if (mKeyboardInflaterParentView.visibility == View.GONE) {
+                    return
                 }
+
+                if (!::mCurrentKeyboardEt.isInitialized) {
+                    throw RuntimeException("请先调用bind方法！")
+                }
+
+                mKeyboardInflaterParentView.visibility = View.GONE
+                if (mCurrentOtherViewIsSetBottom) {
+                    mCurrentOtherViewIsSetBottom = false
+                    mKeyboardInflaterParentView.post {
+                        if (mOtherView is NestedScrollView) {
+                            mOtherView.setPadding(
+                                mOtherView.paddingStart,
+                                mOtherView.paddingTop,
+                                mOtherView.paddingEnd,
+                                mOtherView.paddingBottom - mKeyboardViewHeight
+                            )
+                        } else {
+                            val p = mOtherView.layoutParams as ViewGroup.MarginLayoutParams
+                            p.topMargin = p.topMargin + mKeyboardViewHeight
+                            mOtherView.layoutParams = p
+                        }
+                    }
+                }
+
+                mCurrentKeyboardEt.clearFocus()
+                mCurrentKeyboardEt.isSelected = false
             }
         }
+    }
 
-        mCurrentKeyboardEt.clearFocus()
-        mCurrentKeyboardEt.isSelected = false
+    private fun showSystemKeyBoard(activity: AppCompatActivity) {
+        val imm =
+            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(mCurrentKeyboardEt, 0);//显示软键盘
     }
 
     /**

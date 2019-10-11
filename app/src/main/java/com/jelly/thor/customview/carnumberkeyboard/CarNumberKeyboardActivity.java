@@ -2,8 +2,10 @@ package com.jelly.thor.customview.carnumberkeyboard;
 
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,11 +49,30 @@ public class CarNumberKeyboardActivity extends AppCompatActivity {
      * 车牌号键盘
      */
     private Keyboard mCarNumberProvince;
+    private CustomKeyboardHelp mCustomKeyboard;
+    private int mKeyType = 0;
+    private TextView mTv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_number_keyboard);
+        mTv = findViewById(R.id.tv);
+        mTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCustomKeyboard.hintKeyboardView();
+
+                if (mKeyType % 2 == 0) {
+                    mTv.setText("我是系统键盘");
+                    mCustomKeyboard.setMKeyboardTypeEnum(KeyboardTypeEnum.SYSTEM);
+                } else {
+                    mTv.setText("我是自定义键盘");
+                    mCustomKeyboard.setMKeyboardTypeEnum(KeyboardTypeEnum.CAR_NUMBER_PROVINCE);
+                }
+                mKeyType++;
+            }
+        });
 
         mKeyboardEt = (AppCompatEditText) findViewById(R.id.keyboard_et);
 
@@ -59,14 +80,14 @@ public class CarNumberKeyboardActivity extends AppCompatActivity {
 
         LinearLayout keyboardParentView = (LinearLayout) findViewById(R.id.keyboard_parent_view);
 
-        CustomKeyboardHelp customKeyboard = new CustomKeyboardHelp(this,
+        mCustomKeyboard = new CustomKeyboardHelp(this,
                 R.layout.activity_car_number_keyboardview,
                 R.id.keyboard_view,
                 keyboardParentView,
                 mNsv
         );
-        customKeyboard.setMKeyboardIsPreviewEnabled(true);
-        customKeyboard.bind(mKeyboardEt);
+        mCustomKeyboard.setMKeyboardIsPreviewEnabled(true);
+        mCustomKeyboard.bind(mKeyboardEt);
     }
 
 }
