@@ -338,7 +338,8 @@ class CustomKeyboardHelp(
         }*/
     }
 
-    fun bind(et: AppCompatEditText) {
+    @JvmOverloads
+    fun bind(et: AppCompatEditText, onFocusChangeListener: View.OnFocusChangeListener? = null) {
         mCurrentKeyboardEt = et
 
         //输入框焦点监听
@@ -348,6 +349,7 @@ class CustomKeyboardHelp(
             } else {
                 hintKeyboardView()
             }
+            onFocusChangeListener?.onFocusChange(v, hasFocus)
         }
     }
 
