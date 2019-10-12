@@ -74,14 +74,14 @@ class CustomKeyboardHelp(
             field = value
         }
 
-    /**
-     * 如果是nsv需要记录scrollY距离
-     */
-    private var mScrollY: Int = 0
+//    /**
+//     * 如果是nsv需要记录scrollY距离
+//     */
+//    private var mScrollY: Int = 0
     /**
      * nsv高度
      */
-    private var mNsvHeight: Int = 0
+    private var mOtherViewHeight: Int = 0
     /**
      * 当前et居nsv底部距离
      */
@@ -314,17 +314,16 @@ class CustomKeyboardHelp(
         //初始化键盘
         mKeyboardView.isEnabled = true
 
-        //如果otherView是nsv 需要记录其滚动
+        /*//如果otherView是nsv 需要记录其滚动
         if (mOtherView is NestedScrollView) {
             mOtherView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-                mScrollY = scrollY
-                mNsvHeight = mOtherView.height
+//                mScrollY = scrollY
 //                mKeyboardEt2Bottom = mCurrentKeyboardEt.bottom
 //                mKeyboardView.post {
 //                     mKeyboardViewHeight = mKeyboardView.height
 //                }
 
-                /*Log.e("123===", "scrollY = " + scrollY);
+                *//*Log.e("123===", "scrollY = " + scrollY);
                 Log.e("123===", "mNsv.getHeight() = " + mNsv.getHeight());
                 Log.e("123===", "mKeyboardEt.getBottom() = " + mKeyboardEt.getBottom());
                 mKeyboardView.post(new Runnable() {
@@ -332,12 +331,11 @@ class CustomKeyboardHelp(
                     public void run() {
                         Log.e("123===", "mKeyboardView.getHeight() = " + mKeyboardView.getHeight());
                     }
-                });*/
+                });*//*
             }
         } else {
-            mScrollY = 0
-            mNsvHeight = mOtherView.height
-        }
+//            mScrollY = 0
+        }*/
     }
 
     fun bind(et: AppCompatEditText) {
@@ -359,6 +357,7 @@ class CustomKeyboardHelp(
     private fun showKeyboardView(
         v: View
     ) {
+        mOtherViewHeight = mOtherView.height
 
         when (mKeyboardTypeEnum) {
             KeyboardTypeEnum.SYSTEM -> {
@@ -367,7 +366,15 @@ class CustomKeyboardHelp(
             }
             else -> {
                 //显示自定义键盘
-                mKeyboardEt2Bottom = v.bottom
+                val xyIntArray = intArrayOf(1, 2)
+                v.getLocationInWindow(xyIntArray)
+                val subEt2Bottom = mOtherViewHeight - xyIntArray[1]
+                mKeyboardEt2Bottom =
+                    if (subEt2Bottom < 0) {
+                        0
+                    } else {
+                        subEt2Bottom
+                    }
 
                 hideSystemKeyBoard(mContext as AppCompatActivity, mCurrentKeyboardEt)
                 if (mKeyboardInflaterParentView.visibility != View.VISIBLE) {
@@ -386,13 +393,14 @@ class CustomKeyboardHelp(
                             mOtherView.paddingEnd,
                             mOtherView.paddingBottom + mKeyboardViewHeight
                         )
-                        if (mScrollY + mNsvHeight - mKeyboardEt2Bottom - mKeyboardViewHeight < 0) {
-                            mOtherView.smoothScrollBy(0, mKeyboardViewHeight)
+                        if (mKeyboardEt2Bottom - mKeyboardViewHeight < 0) {
+                            //-(mKeyboardEt2Bottom - mKeyboardViewHeight)
+                            mOtherView.smoothScrollBy(0, mKeyboardViewHeight - mKeyboardEt2Bottom)
                         }
                     } else {
-                        if (mScrollY + mNsvHeight - mKeyboardEt2Bottom - mKeyboardViewHeight < 0) {
+                        if (mKeyboardEt2Bottom - mKeyboardViewHeight < 0) {
                             val p = mOtherView.layoutParams as ViewGroup.MarginLayoutParams
-                            p.topMargin = p.topMargin - mKeyboardViewHeight
+                            p.topMargin = p.topMargin + (mKeyboardEt2Bottom - v.height - mKeyboardViewHeight)
                             mOtherView.layoutParams = p
 
                             if (!mCurrentOtherViewIsSetBottom) {
@@ -440,7 +448,7 @@ class CustomKeyboardHelp(
                             )
                         } else {
                             val p = mOtherView.layoutParams as ViewGroup.MarginLayoutParams
-                            p.topMargin = p.topMargin + mKeyboardViewHeight
+                            p.topMargin = p.topMargin - (mKeyboardEt2Bottom - mCurrentKeyboardEt.height - mKeyboardViewHeight)
                             mOtherView.layoutParams = p
                         }
                     }
