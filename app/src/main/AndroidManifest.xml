@@ -44,6 +44,8 @@
         <activity android:name=".tablayoutfloattop.TabLayoutFloatTopTest1Activity" />
         <!--加载动画00-->
         <activity android:name=".loadinganimation00.LoadingAnimation00Activity" />
+        <!--自定义评价星星-->
+        <activity android:name=".ratingbar.RatingBarActivity" />
     </application>
 
 </manifest>

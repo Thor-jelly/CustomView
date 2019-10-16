@@ -13,6 +13,7 @@ import com.jelly.thor.customview.loadinganimation00.LoadingAnimation00Activity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
+import com.jelly.thor.customview.ratingbar.RatingBarActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
 import com.jelly.thor.customview.statusbar.StatusBarActivity
 import com.jelly.thor.customview.tablayoutfloattop.TabLayoutFloatTopActivity
@@ -86,6 +87,11 @@ class MainActivity : AppCompatActivity() {
         clickLoadingAnimationActivity.setOnClickListener {
             //加载view00
             startNewActivity(LoadingAnimation00Activity::class.java)
+        }
+
+        clickRatingBarActivity.setOnClickListener {
+            //自定义评价星星
+            startNewActivity(RatingBarActivity::class.java)
         }
     }
 

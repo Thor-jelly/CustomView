@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SlidingMenu">
+        <attr name="menuRightMargin" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="Qq6SlidingMenu">
+        <attr name="rightPadding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="NotchLineView">
+        <attr name="bg_color" format="color" />
+        <attr name="dash_color" format="color" />
+        <attr name="dash_width" format="dimension" />
+        <attr name="dash_height" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RatingBar">
+        <attr name="normal_star" format="reference" />
+        <attr name="focus_star" format="reference" />
+        <attr name="star_distance" format="dimension" />
+        <attr name="star_width" format="dimension" />
+        <attr name="star_height" format="dimension" />
+        <attr name="star_number" format="integer" />
+        <attr name="star_enable" format="boolean"/>
+    </declare-styleable>
+</resources>
