@@ -51,7 +51,13 @@ class RatingBar @JvmOverloads constructor(
             mStarDistance = array.getDimension(R.styleable.RatingBar_star_distance, 0F).toInt()
             mStarNumber = array.getInt(R.styleable.RatingBar_star_number, 0)
 
-            if (mStarHeight != 0) {
+            if (mStarHeight != 0 || mStarWidth != 0) {
+                if (mStarHeight == 0) {
+                    mStarHeight = mStarNormalBitmap.height
+                }
+                if (mStarWidth == 0) {
+                    mStarWidth = mStarNormalBitmap.width
+                }
                 mStarNormalBitmap =
                     Bitmap.createScaledBitmap(mStarNormalBitmap, mStarWidth, mStarHeight, true)
                 mStarFocusBitmap =

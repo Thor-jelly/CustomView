@@ -73,7 +73,7 @@ class ShapeView @JvmOverloads constructor(
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
         //设置成为正方形
-        val minSize = min(widthMeasureSpec, heightMeasureSpec)
+        val minSize = min(widthSize, heightSize)
         setMeasuredDimension(minSize, minSize)
     }
 
