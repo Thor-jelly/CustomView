@@ -9,6 +9,7 @@ import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
 import com.jelly.thor.customview.equalscalecouponview.EqualScaleCouponViewActivity
 import com.jelly.thor.customview.fonttest.FontTestActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
+import com.jelly.thor.customview.loadinganimation00.LoadingAnimation00Activity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
@@ -80,6 +81,11 @@ class MainActivity : AppCompatActivity() {
         clickEqualScaleCouponViewActivity.setOnClickListener {
             //优惠券view 生成图片再按比例缩放，形成在任意手机上效果一致
             startNewActivity(EqualScaleCouponViewActivity::class.java)
+        }
+
+        clickLoadingAnimationActivity.setOnClickListener {
+            //加载view00
+            startNewActivity(LoadingAnimation00Activity::class.java)
         }
     }
 

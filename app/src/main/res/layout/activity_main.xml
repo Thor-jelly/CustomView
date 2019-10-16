@@ -129,5 +129,16 @@
             android:text="优惠券view 按比例缩放，形成在任意手机上效果一致"
             android:textColor="@android:color/white"
             android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/clickLoadingAnimationActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00d"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="加载动画00"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
