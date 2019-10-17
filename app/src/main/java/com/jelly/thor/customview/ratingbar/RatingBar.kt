@@ -25,8 +25,8 @@ class RatingBar @JvmOverloads constructor(
     private lateinit var mStarFocusBitmap: Bitmap
     private var mStarWidth = 0
     private var mStarHeight = 0
-    private var mStarDistance = 0
-    private var mStarNumber = 0
+    private var mStarDistance = 1
+    private var mStarNumber = 1
 
     init {
         val array = context?.obtainStyledAttributes(attrs, R.styleable.RatingBar)
@@ -48,8 +48,8 @@ class RatingBar @JvmOverloads constructor(
             mStarWidth = array.getDimension(R.styleable.RatingBar_star_width, 0F).toInt()
             mStarHeight = array.getDimension(R.styleable.RatingBar_star_height, 0F).toInt()
 
-            mStarDistance = array.getDimension(R.styleable.RatingBar_star_distance, 0F).toInt()
-            mStarNumber = array.getInt(R.styleable.RatingBar_star_number, 0)
+            mStarDistance = array.getDimension(R.styleable.RatingBar_star_distance, 1F).toInt()
+            mStarNumber = array.getInt(R.styleable.RatingBar_star_number, 1)
 
             if (mStarHeight != 0 || mStarWidth != 0) {
                 if (mStarHeight == 0) {
