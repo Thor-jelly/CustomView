@@ -70,7 +70,7 @@ class RatingBar @JvmOverloads constructor(
     /**
      * 当前选中的星星
      */
-    private var mCurrentSelectStar = -1
+    private var mCurrentSelectStar = 0
 
     fun setSelectStar(selectStar: Int) {
         mCurrentSelectStar = selectStar
@@ -90,14 +90,12 @@ class RatingBar @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.apply {
-            for (i in 0..mStarNumber) {
+            for (i in 1..mStarNumber) {
                 val oneWidth = mStarNormalBitmap.width
-
-                if (i == 0) {
-                    val x = oneWidth * i
-                    drawStar(i, this, x)
+                if (i == 1) {
+                    drawStar(i, this, 0)
                 } else {
-                    val x = oneWidth * i + mStarDistance * i
+                    val x = oneWidth * (i - 1) + mStarDistance * (i - 1)
                     drawStar(i, this, x)
                 }
             }
@@ -105,7 +103,7 @@ class RatingBar @JvmOverloads constructor(
     }
 
     private fun drawStar(i: Int, canvas: Canvas, x: Int) {
-        if (mCurrentSelectStar <= i) {
+        if (mCurrentSelectStar < i) {
             canvas.drawBitmap(mStarNormalBitmap, x.toFloat(), 0F, null)
         } else {
             canvas.drawBitmap(mStarFocusBitmap, x.toFloat(), 0F, null)
