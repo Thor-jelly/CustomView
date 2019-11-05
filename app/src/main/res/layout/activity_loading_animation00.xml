@@ -7,11 +7,19 @@
     tools:context=".loadinganimation00.LoadingAnimation00Activity">
 
     <com.jelly.thor.customview.loadinganimation00.LoadingView
+        android:id="@+id/load1"
         android:background="#ff0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.jelly.thor.customview.loadinganimation00.LoadingView01
+        android:id="@+id/load2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/load1"
+        app:layout_constraintStart_toEndOf="@id/load1"
+        android:layout_width="wrap_content"
+        android:background="#ffc"
+        android:layout_height="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

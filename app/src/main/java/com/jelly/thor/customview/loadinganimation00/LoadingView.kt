@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
@@ -27,6 +28,7 @@ class LoadingView @JvmOverloads constructor(
     LinearLayout(context, attrs, defStyleAttr) {
 
     init {
+        gravity = Gravity.CENTER
         startAnimator()
     }
 
@@ -187,5 +189,33 @@ class LoadingView @JvmOverloads constructor(
         })
 
         animator.start()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val width = when (MeasureSpec.getMode(heightMeasureSpec)) {
+            MeasureSpec.AT_MOST,MeasureSpec.UNSPECIFIED -> {
+                dp2px(150)
+            }
+            MeasureSpec.EXACTLY -> {
+                MeasureSpec.getSize(widthMeasureSpec)
+            }
+            else -> {
+                dp2px(150)
+            }
+        }
+
+        val height = when (MeasureSpec.getMode(heightMeasureSpec)) {
+            MeasureSpec.AT_MOST,MeasureSpec.UNSPECIFIED -> {
+                dp2px(300)
+            }
+            MeasureSpec.EXACTLY -> {
+                MeasureSpec.getSize(heightMeasureSpec)
+            }
+            else -> {
+                dp2px(300)
+            }
+        }
+        setMeasuredDimension(width, height)
     }
 }

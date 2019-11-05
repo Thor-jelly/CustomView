@@ -113,6 +113,7 @@ class KeyboardView @JvmOverloads constructor(
     /**
      * 更新键盘布局
      */
+    @Suppress("NON_EXHAUSTIVE_WHEN")
     private fun updateKeyboardLayout(keyType: KeyTypeEnum) {
         mSelectLayoutModule = keyType
         when (keyType) {
@@ -133,6 +134,7 @@ class KeyboardView @JvmOverloads constructor(
     /**
      * 创建view
      */
+    @Suppress("UNUSED_VARIABLE")
     private fun createKeyboardLayout(layoutModel: LayoutModel) {
         //以第一行的键盘数量为基准
         val maxColumn = layoutModel.rowItem[0].keyItem.size

@@ -13,6 +13,7 @@ import kotlin.math.roundToInt
 /**
  * 当前缩放view必须用一个父布局包裹
  */
+@Suppress("USELESS_ELVIS")
 fun View?.scaleView(
     isFullView: Boolean = false
 ) {

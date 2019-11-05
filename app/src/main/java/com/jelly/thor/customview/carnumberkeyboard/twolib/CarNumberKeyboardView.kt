@@ -59,6 +59,7 @@ class CarNumberKeyboardView @JvmOverloads constructor(
     /**
      * 重新绘制确定按钮样式
      */
+    @Suppress("DEPRECATION")
     private fun drawKeyStyle(canvas: Canvas, key: Keyboard.Key) {
         val drawable =
             context.resources.getDrawable(R.drawable.bg_car_number_keyboardview_preview_ensure)

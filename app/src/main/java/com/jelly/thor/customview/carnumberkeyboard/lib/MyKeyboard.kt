@@ -32,6 +32,7 @@ class MyKeyboard(val keyboardView: KeyboardView) {
         bindEt(et, dialog.window)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun bindEt(et: AppCompatEditText, window: Window?) {
         //
     }

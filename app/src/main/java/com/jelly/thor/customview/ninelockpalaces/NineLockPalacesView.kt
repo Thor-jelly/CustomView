@@ -269,6 +269,7 @@ class NineLockPalacesView @JvmOverloads constructor(
     /**
      * 绘制三角箭头
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun drawArrow(
         lastPoint: Point,
         newLastPoint: Point,
@@ -313,6 +314,7 @@ class NineLockPalacesView @JvmOverloads constructor(
         )
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     private fun drawShow(canvas: Canvas) {
         for (outPoint in mPoints) {
             if (outPoint == null) {
