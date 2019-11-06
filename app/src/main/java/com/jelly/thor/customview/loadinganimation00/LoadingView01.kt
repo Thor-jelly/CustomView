@@ -1,5 +1,9 @@
 package com.jelly.thor.customview.loadinganimation00
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -7,6 +11,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 
 class LoadingView01 @JvmOverloads constructor(
     context: Context?,
@@ -78,6 +84,83 @@ class LoadingView01 @JvmOverloads constructor(
         height / 2
     }
 
+    private val initStartX
+        get() = 0 + pointRadio
+
+    private val initEndX
+        get() = width - pointRadio
+
+    private val duration = 500L
+
+    init {
+        //初始化完，执行动画
+        post {
+            startAnimator()
+        }
+    }
+
+    /**
+     * 开启动画
+     */
+    fun startAnimator() {
+        //开始往里缩动画
+        val oneAnimator = ValueAnimator.ofFloat(oneX.toFloat(), twoX.toFloat())
+        oneAnimator.addUpdateListener {
+            oneX = it.animatedValue.toString().toFloat().toInt()
+        }
+
+        val threeAnimator = ValueAnimator.ofFloat(threeX.toFloat(), twoX.toFloat())
+        threeAnimator.addUpdateListener {
+            threeX = it.animatedValue.toString().toFloat().toInt()
+            invalidate()
+        }
+
+        val set = AnimatorSet()
+        set.duration = duration
+        set.interpolator = AccelerateInterpolator()
+        set.playTogether(oneAnimator, threeAnimator)
+        set.start()
+        set.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                changPoint(onePaint)
+                changPoint(twoPaint)
+                changPoint(threePaint)
+                starAnimatorOut()
+            }
+        })
+    }
+
+    private fun starAnimatorOut() {
+        //开始往外扩张动画
+        //开始往里缩动画
+        val oneAnimator = ValueAnimator.ofFloat(twoX.toFloat(), initStartX.toFloat())
+        oneAnimator.addUpdateListener {
+            oneX = it.animatedValue.toString().toFloat().toInt()
+        }
+
+        val threeAnimator = ValueAnimator.ofFloat(twoX.toFloat(), initEndX.toFloat())
+        threeAnimator.addUpdateListener {
+            threeX = it.animatedValue.toString().toFloat().toInt()
+            invalidate()
+        }
+
+        val set = AnimatorSet()
+        set.duration = duration
+        set.interpolator = DecelerateInterpolator()
+        set.playTogether(oneAnimator, threeAnimator)
+        set.start()
+        set.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                startAnimator()
+            }
+        })
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        clearAnimation()
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val height = when (MeasureSpec.getMode(heightMeasureSpec)) {
@@ -88,7 +171,7 @@ class LoadingView01 @JvmOverloads constructor(
                 pointRadio * 2 + paddingTop + paddingBottom
             }
             MeasureSpec.EXACTLY -> {
-               MeasureSpec.getSize(heightMeasureSpec)
+                MeasureSpec.getSize(heightMeasureSpec)
             }
             else -> {
                 pointRadio * 2 + paddingTop + paddingBottom
@@ -102,23 +185,24 @@ class LoadingView01 @JvmOverloads constructor(
         super.onDraw(canvas)
         //画小圆点
         if (twoX == 0) {
-            oneX = 0 + pointRadio
+            oneX = initStartX
             twoX = width / 2
-            threeX = width - pointRadio
+            threeX = initEndX
         }
 
         canvas.drawCircle(oneX.toFloat(), currentY.toFloat(), pointRadio.toFloat(), onePaint)
-        canvas.drawCircle(twoX.toFloat(), currentY.toFloat(), pointRadio.toFloat(), twoPaint)
         canvas.drawCircle(threeX.toFloat(), currentY.toFloat(), pointRadio.toFloat(), threePaint)
+        canvas.drawCircle(twoX.toFloat(), currentY.toFloat(), pointRadio.toFloat(), twoPaint)
     }
 
-    private fun changPoint(currentColor: Int): Int {
-        return when (currentColor) {
-            oneColor -> twoColor
-            twoColor -> threeColor
-            threeColor -> oneColor
+    private fun changPoint(currentPaint: Paint) {
+        val nowColor = when (currentPaint.color) {
+            oneColor -> threeColor
+            twoColor -> oneColor
+            threeColor -> twoColor
             else -> oneColor
         }
+        currentPaint.color = nowColor
     }
 
     private fun dp2px(dp: Int): Int {
