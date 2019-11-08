@@ -15,6 +15,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,10 +43,12 @@
         <!-- tab悬浮在最上方 -->
         <activity android:name=".tablayoutfloattop.TabLayoutFloatTopActivity" />
         <activity android:name=".tablayoutfloattop.TabLayoutFloatTopTest1Activity" />
-        <!--加载动画00-->
+        <!-- 加载动画00 -->
         <activity android:name=".loadinganimation00.LoadingAnimation00Activity" />
-        <!--自定义评价星星-->
+        <!-- 自定义评价星星 -->
         <activity android:name=".ratingbar.RatingBarActivity" />
+        <!--贝塞尔曲线学习-->
+        <activity android:name=".bezier.BezierActivity" />
     </application>
 
 </manifest>

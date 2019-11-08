@@ -1,6 +1,12 @@
 # CustomView
 自定义view学习
 
+# 学习博客
+
+[安卓学习笔记](https://github.com/GcsSloop/AndroidNote)
+[贝塞尔曲线练习网站](https://bezier.method.ac/)
+
+
 ```
 <!--字体测试-->
 <activity android:name=".fonttest.FontTestActivity" />

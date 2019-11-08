@@ -3,6 +3,7 @@ package com.jelly.thor.customview
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.jelly.thor.customview.bezier.BezierActivity
 import com.jelly.thor.customview.carhomeitemstyle.CarHomeItemStyleActivity
 import com.jelly.thor.customview.carnumberkeyboard.CarNumberKeyboardActivity
 import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
@@ -92,6 +93,11 @@ class MainActivity : AppCompatActivity() {
         clickRatingBarActivity.setOnClickListener {
             //自定义评价星星
             startNewActivity(RatingBarActivity::class.java)
+        }
+
+        clickBezierActivity.setOnClickListener {
+            //贝塞尔 曲线学习
+            startNewActivity(BezierActivity::class.java)
         }
     }
 
