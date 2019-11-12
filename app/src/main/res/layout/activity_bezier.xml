@@ -5,7 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".bezier.BezierActivity">
-    <com.jelly.thor.customview.bezier.Bezier01
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/mTv"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="我是textView,拖拽我"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:layout_height="50dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,16 @@
 package com.jelly.thor.customview.bezier
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
+import android.view.animation.OvershootInterpolator
 import kotlin.math.*
+
 
 /**
  * 仿qq消息拖拽效果
@@ -23,7 +27,14 @@ class Bezier01 @JvmOverloads constructor(
          * 没有点
          */
         const val NULL_POINT = -10000F
+
+        interface Listener {
+            fun reset()
+            fun dismiss()
+        }
     }
+
+    private lateinit var mMovePointBitmap: Bitmap
 
     private val mPaint by lazy {
         val paint = Paint()
@@ -48,26 +59,73 @@ class Bezier01 @JvmOverloads constructor(
      */
     private val mMovePointRadius = dp2Px(15)
 
+    private var nowDownPointRadius = 0F
+
     private var mDownPoint: PointF = PointF(NULL_POINT, NULL_POINT)
     private var mMovePoint: PointF = PointF(NULL_POINT, NULL_POINT)
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                //记录当前按下位置
-                updatePoint(mDownPoint, event.x, event.y)
-                updatePoint(mMovePoint, event.x, event.y)
+//    override fun onTouchEvent(event: MotionEvent): Boolean {
+//        when (event.action) {
+//            MotionEvent.ACTION_DOWN -> {
+//                //记录当前按下位置
+//                updatePointNoInvalidate(mDownPoint, event.x, event.y)
+//                updatePointNoInvalidate(mMovePoint, event.x, event.y)
+//            }
+//            MotionEvent.ACTION_MOVE -> {
+//                updatePointNoInvalidate(mMovePoint, event.x, event.y)
+//            }
+//            MotionEvent.ACTION_UP -> {
+//                updatePointNoInvalidate(mDownPoint, NULL_POINT, NULL_POINT)
+//                updatePointNoInvalidate(mMovePoint, NULL_POINT, NULL_POINT)
+//            }
+//        }
+//        invalidate()
+//        return true
+//    }
+
+    private var mListener : Listener? = null
+
+    fun setListener(listener: Listener) {
+        mListener = listener
+    }
+
+    /**
+     * 处理抬起
+     */
+    fun handlerActionUp() {
+        val isDrawDownPoint = nowDownPointRadius > mDownPointMiniRadius
+        if (isDrawDownPoint) {
+            //回弹
+            val animator = ValueAnimator.ofFloat(1f)
+            animator.duration = 250
+            animator.addUpdateListener {
+                val fraction = it.animatedValue as Float
+                // 根据fraction来计算当前动画的x和y的值
+                val x = mMovePoint.x + fraction * (mDownPoint.x - mMovePoint.x)
+                val y = mMovePoint.y + fraction * (mDownPoint.y - mMovePoint.y)
+//                Log.d("123===", "fraction=$fraction")
+//                Log.d("123===", "mMovePoint=$mMovePoint")
+//                Log.d("123===", "mDownPoint=$mDownPoint")
+                val value = PointF(x, y)
+
+                updatePointNoInvalidate(mMovePoint, value.x, value.y)
+                invalidate()
             }
-            MotionEvent.ACTION_MOVE -> {
-                updatePoint(mMovePoint, event.x, event.y)
-            }
-            MotionEvent.ACTION_UP -> {
-                updatePoint(mDownPoint, NULL_POINT, NULL_POINT)
-                updatePoint(mMovePoint, NULL_POINT, NULL_POINT)
-            }
+            animator.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    mListener?.reset()
+                }
+            })
+            animator.interpolator = OvershootInterpolator(9F)
+            animator.start()
+        } else {
+            //爆炸
+            mListener?.dismiss()
         }
-        invalidate()
-        return true
+    }
+
+    fun setBitmap(bitmapByView: Bitmap) {
+        this.mMovePointBitmap = bitmapByView
     }
 
     private fun dp2Px(dp: Int): Int {
@@ -82,7 +140,24 @@ class Bezier01 @JvmOverloads constructor(
     /**
      * 更新点的位置
      */
-    private fun updatePoint(pointF: PointF, x: Float, y: Float) {
+    fun initPoint(x: Float, y: Float) {
+        updatePointNoInvalidate(mDownPoint, x, y)
+        updatePointNoInvalidate(mMovePoint, x, y)
+        invalidate()
+    }
+
+    /**
+     * 更新点的位置
+     */
+    fun updateMovePoint(x: Float, y: Float) {
+        updatePointNoInvalidate(mMovePoint, x, y)
+        invalidate()
+    }
+
+    /**
+     * 更新点的位置
+     */
+    private fun updatePointNoInvalidate(pointF: PointF, x: Float, y: Float) {
         pointF.x = x
         pointF.y = y
     }
@@ -91,22 +166,30 @@ class Bezier01 @JvmOverloads constructor(
         if (mDownPoint.x == NULL_POINT) {
             return
         }
-        //计算两个点的距离
-        val new2PointDistance = calculation2PointDistance()
-
-        //1、画拖拽圆
-        canvas.drawCircle(mMovePoint.x, mMovePoint.y, mMovePointRadius.toFloat(), mPaint)
 
         val bezierPath = getBezierPath()
+
         bezierPath?.let {
             //2、画固定圆
             canvas.drawCircle(
                 mDownPoint.x,
                 mDownPoint.y,
-                mDownPointRadius.toFloat() - new2PointDistance / 14,
+                nowDownPointRadius,
                 mPaint
             )
             canvas.drawPath(it, mPaint)
+        }
+
+        //1、画拖拽圆
+        if (::mMovePointBitmap.isInitialized) {
+            canvas.drawBitmap(
+                mMovePointBitmap,
+                mMovePoint.x - mMovePointBitmap.width / 2,
+                mMovePoint.y - mMovePointBitmap.height / 2,
+                null
+            )
+        } else {
+            canvas.drawCircle(mMovePoint.x, mMovePoint.y, mMovePointRadius.toFloat(), mPaint)
         }
     }
 
@@ -128,7 +211,7 @@ class Bezier01 @JvmOverloads constructor(
         //判断固定点是否隐藏，如果隐藏不需要画贝塞尔曲线
         //计算两个点的距离d
         val c12c2distance = calculation2PointDistance()
-        val nowDownPointRadius = mDownPointRadius.toFloat() - c12c2distance / 14
+        nowDownPointRadius = mDownPointRadius.toFloat() - c12c2distance / 14
         val isDrawDownPoint = nowDownPointRadius > mDownPointMiniRadius
         val path = Path()
         if (!isDrawDownPoint) {
