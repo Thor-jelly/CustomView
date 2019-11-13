@@ -30,7 +30,7 @@ class Bezier01 @JvmOverloads constructor(
 
         interface Listener {
             fun reset()
-            fun dismiss()
+            fun dismiss(pointF: PointF)
         }
     }
 
@@ -120,7 +120,7 @@ class Bezier01 @JvmOverloads constructor(
             animator.start()
         } else {
             //爆炸
-            mListener?.dismiss()
+            mListener?.dismiss(mMovePoint)
         }
     }
 

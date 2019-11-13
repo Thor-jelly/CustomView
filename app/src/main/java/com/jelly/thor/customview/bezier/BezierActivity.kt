@@ -1,6 +1,7 @@
 package com.jelly.thor.customview.bezier
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.Consumer
 import com.jelly.thor.customview.R
@@ -15,7 +16,7 @@ class BezierActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bezier)
         Bezier01Update.bind(mTv, Consumer {
-
+            Log.d("123===", "---------->$it")
         })
     }
 }
