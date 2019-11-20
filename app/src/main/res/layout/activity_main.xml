@@ -162,5 +162,27 @@
             android:text="贝塞尔曲线学习"
             android:textColor="@android:color/white"
             android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/clickParallaxAnimatorActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#02f"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="视差动画学习"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/clickWXBookActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#03f"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="仿微信通讯录"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

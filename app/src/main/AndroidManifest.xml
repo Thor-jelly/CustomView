@@ -49,6 +49,10 @@
         <activity android:name=".ratingbar.RatingBarActivity" />
         <!--贝塞尔曲线学习-->
         <activity android:name=".bezier.BezierActivity" />
+        <!--视差动画学习-->
+        <activity android:name=".parallaxanimator.ParallaxAnimatorActivity" />
+        <!--仿微信通讯录-->
+        <activity android:name=".wxbook.WXBookActivity" />
     </application>
 
 </manifest>

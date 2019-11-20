@@ -30,10 +30,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
 
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.0'
 
     implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
+    implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3' // 可选，适用于Android的中国地区词典
+    implementation 'com.github.promeg:tinypinyin-lexicons-java-cncity:2.0.3' // 可选，适用于Java的中国地区词典
 }

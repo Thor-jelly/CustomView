@@ -13,11 +13,13 @@ import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.loadinganimation00.LoadingAnimation00Activity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
+import com.jelly.thor.customview.parallaxanimator.ParallaxAnimatorActivity
 import com.jelly.thor.customview.qq6.SlidingQq6MenuActivity
 import com.jelly.thor.customview.ratingbar.RatingBarActivity
 import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
 import com.jelly.thor.customview.statusbar.StatusBarActivity
 import com.jelly.thor.customview.tablayoutfloattop.TabLayoutFloatTopActivity
+import com.jelly.thor.customview.wxbook.WXBookActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -98,6 +100,16 @@ class MainActivity : AppCompatActivity() {
         clickBezierActivity.setOnClickListener {
             //贝塞尔 曲线学习
             startNewActivity(BezierActivity::class.java)
+        }
+
+        clickParallaxAnimatorActivity.setOnClickListener {
+            //视差动画学习
+            startNewActivity(ParallaxAnimatorActivity::class.java)
+        }
+
+        clickWXBookActivity.setOnClickListener {
+            //仿微信通讯录
+            startNewActivity(WXBookActivity::class.java)
         }
     }
 

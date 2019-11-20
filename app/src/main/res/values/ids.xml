@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="keyboard_wrapper_id" type="id"/>
+    <item name="parallax_tag" type="id"/>
 </resources>

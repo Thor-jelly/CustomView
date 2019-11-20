@@ -3,18 +3,18 @@
     android:oneshot="true" >
 
     <item
-        android:drawable="@drawable/bezeier_pop1"
+        android:drawable="@drawable/bezier_pop1"
         android:duration="100"/>
     <item
-        android:drawable="@drawable/bezeier_pop2"
+        android:drawable="@drawable/bezier_pop2"
         android:duration="100"/>
     <item
-        android:drawable="@drawable/bezeier_pop3"
+        android:drawable="@drawable/bezier_pop3"
         android:duration="100"/>
     <item
-        android:drawable="@drawable/bezeier_pop4"
+        android:drawable="@drawable/bezier_pop4"
         android:duration="100"/>
     <item
-        android:drawable="@drawable/bezeier_pop5"
+        android:drawable="@drawable/bezier_pop5"
         android:duration="100"/>
 </animation-list>

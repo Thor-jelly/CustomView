@@ -18,5 +18,11 @@ class BezierActivity : AppCompatActivity() {
         Bezier01Update.bind(mTv, Consumer {
             Log.d("123===", "---------->$it")
         })
+
+
+        mLoveTv.setOnClickListener {
+            //花束效果
+            mAllRl.addLove()
+        }
     }
 }
