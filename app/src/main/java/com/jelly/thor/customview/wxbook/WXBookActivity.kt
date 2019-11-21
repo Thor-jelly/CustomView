@@ -2,6 +2,8 @@ package com.jelly.thor.customview.wxbook
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.promeg.pinyinhelper.Pinyin
+import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict
 import com.jelly.thor.customview.R
 import com.jelly.thor.customview.wxbook.test.TestAdapter
 import com.jelly.thor.customview.wxbook.test.TestBean
@@ -18,7 +20,15 @@ class WXBookActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wx_book)
+
+        // 添加中文城市词典
+        Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(applicationContext)))
+
         val list = mutableListOf<TestBean>()
+
+        val b11 = TestBean()
+        b11.name = "长沙"
+        list.add(b11)
 
         val b10 = TestBean()
         b10.name = "安啊"

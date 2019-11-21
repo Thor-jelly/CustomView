@@ -1,9 +1,10 @@
 package com.jelly.thor.customview.wxbook
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PointF
 import android.util.AttributeSet
-import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -22,8 +23,7 @@ class WXBookView @JvmOverloads constructor(
 ) :
     RelativeLayout(context, attrs, defStyleAttr) {
     private val mRv by lazy {
-        val rv = findViewById<RecyclerView>(R.id.wx_rv)
-        rv
+        findViewById<RecyclerView>(R.id.wx_rv)
     }
 
     private val mIndexBar by lazy {
@@ -34,35 +34,115 @@ class WXBookView @JvmOverloads constructor(
         findViewById<TextView>(R.id.wx_preview)
     }
 
+    private var mTitleColor = Color.RED
+    private var mTopTitleTextColor = Color.GREEN
+    private var mTitleTextColor = Color.WHITE
+    private var mTitleHeight = 0F
+    private var mTitleTextMarginStar = 0F
+    private var mTitleTextSize = 0F
+
+    private var mBarTextSize = dp2px(11)
+    private var mBarTextNoSelectColor = Color.BLACK
+    private var mBarTextSelectColor = Color.GRAY
+    private var mBarTextCircleSelectColor = Color.RED
+    private var mBarIsVibrator = true
+
+    private var mPreviewTextSize = dp2px(30)
+
     init {
         View.inflate(context, R.layout.wx_book_view, this)
+
+        val array = context?.obtainStyledAttributes(attrs, R.styleable.WXBookView)
+        array?.let {
+            mTitleColor = array.getColor(
+                R.styleable.WXBookView_wxbookview_title_color,
+                Color.RED
+            )
+            mTopTitleTextColor = array.getColor(
+                R.styleable.WXBookView_wxbookview_top_title_text_color,
+                Color.GREEN
+            )
+            mTitleTextColor = array.getColor(
+                R.styleable.WXBookView_wxbookview_title_text_color,
+                Color.WHITE
+            )
+            mTitleHeight = array.getDimension(
+                R.styleable.WXBookView_wxbookview_title_height,
+                dp2px(30).toFloat()
+            )
+            mTitleTextMarginStar = array.getDimension(
+                R.styleable.WXBookView_wxbookview_title_text_marginstar,
+                dp2px(20).toFloat()
+            )
+            mTitleTextSize = array.getDimension(
+                R.styleable.WXBookView_wxbookview_title_text_size,
+                dp2px(15).toFloat()
+            )
+
+            mBarTextSize = array.getDimension(
+                R.styleable.WXBookView_wxbookview_bar_text_size,
+                dp2px(11).toFloat()
+            ).toInt()
+            mBarTextNoSelectColor = array.getColor(
+                R.styleable.WXBookView_wxbookview_bar_text_no_select_color,
+                Color.BLACK
+            )
+            mBarTextSelectColor = array.getColor(
+                R.styleable.WXBookView_wxbookview_bar_text_select_color,
+                Color.GRAY
+            )
+            mBarTextCircleSelectColor = array.getColor(
+                R.styleable.WXBookView_wxbookview_bar_text_circle_select_color,
+                Color.RED
+            )
+            mBarIsVibrator = array.getBoolean(
+                R.styleable.WXBookView_wxbookview_bar_text_vibrator,
+                true
+            )
+            
+            //预览效果属性暂不添加
+            array.recycle()
+        }
+
     }
 
     fun <T : WXBean> setAdapter(adapter: WXBaseAdapter<T>) {
-        mRv.addItemDecoration(WXTitleItemDecoration(adapter.list))
+        val rvBuilder =
+            WXTitleItemDecoration.Builder().apply {
+                setHeight(mTitleHeight.toInt())
+                setColor(mTitleColor)
+                setTextMarginStar(mTitleTextMarginStar.toInt())
+                setTextColor(mTitleTextColor)
+                setTextSize(mTitleTextSize.toInt())
+                setTopTitleTextColor(mTopTitleTextColor)
+            }
+        mRv.addItemDecoration(WXTitleItemDecoration(adapter.list, rvBuilder))
         mRv.adapter = adapter
         mRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val manager = recyclerView.layoutManager as LinearLayoutManager
-                val position = manager.findFirstVisibleItemPosition()
-                val pinyin = adapter.list[position].pinyin
-                val sub = if (pinyin.isEmpty()) {
-                    "#"
-                } else {
-                    pinyin.substring(0, 1)
-                }
-                mIndexBar.setCurrentChar(sub.toUpperCase())
+                val sub = getRvAdapterListPinyinInitials(adapter)
+                mIndexBar.setCurrentChar(sub)
             }
         })
 
-        mIndexBar.setCurrentChar("A")
+
+        val indexBarBuilder =
+            IndexBar.Builder().apply {
+                setCurrentChar(getRvAdapterListPinyinInitials(adapter))
+                setTextSize(mBarTextSize)
+                setTextSelectColor(mBarTextSelectColor)
+                setTextNoSelectColor(mBarTextNoSelectColor)
+                setCircleSelectColor(mBarTextCircleSelectColor)
+                setIsVibrator(mBarIsVibrator)
+            }
+        mIndexBar.setBuilder(indexBarBuilder)
         mIndexBar.setListener(object : IndexBar.IndexBarListener {
             override fun touchListener(
                 str: String,
                 isShowPreView: Boolean,
                 pointF: PointF?
             ) {
-                Log.d("123===", "位置信息=$pointF")
+                //Log.d("123===", "位置信息=$pointF")
                 if (isShowPreView) {
                     mTv.visibility = View.VISIBLE
                     mTv.text = str
@@ -77,8 +157,40 @@ class WXBookView @JvmOverloads constructor(
                     }
                 } else {
                     mTv.visibility = View.INVISIBLE
+                    val sub = getRvAdapterListPinyinInitials(adapter)
+                    if (str != sub) {
+                        mIndexBar.setCurrentChar(sub)
+                    }
+
                 }
             }
         })
+    }
+
+    /**
+     * 获取rv可见数据中第一个的首字母
+     */
+    private fun <T : WXBean> getRvAdapterListPinyinInitials(
+        adapter: WXBaseAdapter<T>
+    ): String {
+        //判断当前显示第一个是否为侧边索引字母，如果不是更改所有选中字母
+        val manager = mRv.layoutManager as LinearLayoutManager
+        val position = manager.findFirstVisibleItemPosition()
+        val pinyin = adapter.list[position].pinyin
+        return if (pinyin.isEmpty()) {
+            "#"
+        } else {
+            pinyin.substring(0, 1).toUpperCase()
+        }
+
+    }
+
+    private fun dp2px(dp: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            context.resources.displayMetrics
+        )
+            .toInt()
     }
 }

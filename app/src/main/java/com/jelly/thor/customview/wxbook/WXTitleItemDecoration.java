@@ -174,7 +174,7 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
                 mPaint);
 
         //绘制文字
-        mPaint.setColor(mBuilder.titleTextColor);
+        mPaint.setColor(mBuilder.topTitleTextColor);
         Rect bounds = new Rect();
         int newStar = child.getPaddingStart() + mBuilder.textMarginStar;
         mPaint.getTextBounds(nowSub, 0, nowSub.length(), bounds);
@@ -226,7 +226,7 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
         /**
          * 顶部文字颜色
          */
-        private int titleTextColor = Color.GREEN;
+        private int topTitleTextColor = Color.GREEN;
         /**
          * 文字大小 px
          */
@@ -250,8 +250,8 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
-        public Builder setTitleTextColor(int titleTextColor) {
-            this.titleTextColor = titleTextColor;
+        public Builder setTopTitleTextColor(int topTitleTextColor) {
+            this.topTitleTextColor = topTitleTextColor;
             return this;
         }
 

@@ -31,4 +31,44 @@
         <attr name="star_number" format="integer" />
         <attr name="star_enable" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="WXBookView">
+        <!--        悬浮顶部分类颜色-->
+        <attr name="wxbookview_top_title_text_color" format="color" />
+        <!--        分类title文字颜色-->
+        <attr name="wxbookview_title_text_color" format="color" />
+        <!--        分类title文字大小-->
+        <attr name="wxbookview_title_text_size" format="dimension" />
+        <!--        分类title高度-->
+        <attr name="wxbookview_title_height" format="dimension" />
+        <!--        分类title背景色-->
+        <attr name="wxbookview_title_color" format="color" />
+        <!--        分类title文字距离左侧距离-->
+        <attr name="wxbookview_title_text_marginstar" format="dimension" />
+        <!--        侧边索引-字体大小-->
+        <attr name="wxbookview_bar_text_size" format="dimension" />
+        <!--        侧边索引-字体颜色-未选中-->
+        <attr name="wxbookview_bar_text_select_color" format="color" />
+        <!--        侧边索引-字体颜色-已选中-->
+        <attr name="wxbookview_bar_text_no_select_color" format="color" />
+        <!--        侧边索引-字体已选中圆背景色-->
+        <attr name="wxbookview_bar_text_circle_select_color" format="color" />
+        <!--        侧边索引-点击是否振动-->
+        <attr name="wxbookview_bar_text_vibrator" format="boolean" />
+        <!--        预览文字大小-->
+        <attr name="wxbookview_preview_text_size" format="dimension" />
+        <!--        预览文本框大小-->
+        <attr name="wxbookview_preview_text_width" format="dimension" >
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="wxbookview_preview_text_height" format="dimension" >
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!--        预览背景-->
+        <attr name="wxbookview_preview_background" format="reference" />
+        <!--        预览文字颜色-->
+        <attr name="wxbookview_preview_text_color" format="color" />
+        <!--        预览距所有距离-->
+        <attr name="wxbookview_preview_margin_bar" format="dimension" />
+    </declare-styleable>
 </resources>

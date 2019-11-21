@@ -1,9 +1,12 @@
 package com.jelly.thor.customview.wxbook
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.os.Vibrator
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.max
@@ -28,29 +31,6 @@ class IndexBar @JvmOverloads constructor(
     )
 
     /**
-     * 字体大小
-     */
-    private var textSize = dp2px(11)
-    /**
-     * 字体颜色-未选中
-     */
-    private var noSelectTextColor = Color.BLACK
-    /**
-     * 字体颜色-已选中
-     */
-    private var selectTextColor = Color.GRAY
-
-    /**
-     * 圆
-     */
-    private var radioColor = Color.RED
-
-    /**
-     * 当前字母
-     */
-    private var currentChar = ""
-
-    /**
      * 字体画笔
      */
     private val charPaint by lazy {
@@ -70,31 +50,46 @@ class IndexBar @JvmOverloads constructor(
         paint
     }
 
+    private var isPressDown = false
+
     private var listener: IndexBarListener? = null
 
+    private var builder: Builder
+
     init {
+        //暂时是在其他view中，不需要自定义属性
         //字体大小
         //字体颜色-未选中
         //字体颜色-已选中
-        //字体已选中背景
-        //整体背景
+        //字体已选中圆背景色
         //点击是否振动
+        builder = Builder().setTextSize(dp2px(11))
+    }
+
+    /**
+     * 设置属性
+     */
+    fun setBuilder(builder: Builder) {
+        this.builder = builder
+        invalidate()
     }
 
     fun setListener(listener: IndexBarListener) {
         this.listener = listener
     }
 
-    @JvmOverloads
     fun setCurrentChar(currentChar: String) {
-        this.currentChar = currentChar
+        if (isPressDown) {
+            return
+        }
+        builder.setCurrentChar(currentChar)
         invalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        charPaint.textSize = textSize.toFloat()
+        charPaint.textSize = builder.textSize.toFloat()
         var charAllWidthSize = 0
         var charAllHeightSize = 0
         //计算字体高度 宽度
@@ -138,11 +133,11 @@ class IndexBar @JvmOverloads constructor(
             val baseLine = centerY + dy;
 
             charPaint.getTextBounds(s, 0, s.length, charRect)
-            if (s == currentChar) {
-                charPaint.color = selectTextColor
+            if (s == builder.currentChar) {
+                charPaint.color = builder.textSelectColor
 
                 //绘制小圆
-                radioPaint.color = radioColor
+                radioPaint.color = builder.circleSelectColor
                 val radio = charRect.width() / 2 + dp2px(5)
                 canvas.drawCircle(
                     (width / 2).toFloat(),
@@ -151,7 +146,7 @@ class IndexBar @JvmOverloads constructor(
                     radioPaint
                 )
             } else {
-                charPaint.color = noSelectTextColor
+                charPaint.color = builder.textNoSelectColor
             }
             canvas.drawText(
                 s,
@@ -162,9 +157,11 @@ class IndexBar @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
-            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_DOWN -> {
+                isPressDown = true
                 val currentMoveY = event.y
                 val oneCharHeight = (height - paddingTop - paddingBottom) / allChar.size
                 var currentPosition = ((currentMoveY - paddingTop) / oneCharHeight).toInt()
@@ -175,25 +172,59 @@ class IndexBar @JvmOverloads constructor(
                     currentPosition = allChar.size - 1
                 }
                 val nowClickChar = allChar[currentPosition]
-                if (currentChar != nowClickChar) {
-                    currentChar = nowClickChar
+                if (builder.currentChar != nowClickChar) {
+                    builder.setCurrentChar(nowClickChar)
                     invalidate()
                 }
+
                 val pointF =
                     PointF(
                         0F,
                         paddingTop + (currentPosition * oneCharHeight + oneCharHeight / 2).toFloat()
                     )
-
-                listener?.touchListener(currentChar, true, pointF)
+                listener?.touchListener(builder.currentChar, true, pointF)
+                playVibrator()
             }
-            MotionEvent.ACTION_UP -> {
-                listener?.touchListener(currentChar, false, null)
+            MotionEvent.ACTION_MOVE -> {
+                val currentMoveY = event.y
+                val oneCharHeight = (height - paddingTop - paddingBottom) / allChar.size
+                var currentPosition = ((currentMoveY - paddingTop) / oneCharHeight).toInt()
+                if (currentPosition < 0) {
+                    currentPosition = 0;
+                }
+                if (currentPosition > allChar.size - 1) {
+                    currentPosition = allChar.size - 1
+                }
+                val nowClickChar = allChar[currentPosition]
+                if (builder.currentChar != nowClickChar) {
+                    builder.setCurrentChar(nowClickChar)
+                    val pointF =
+                        PointF(
+                            0F,
+                            paddingTop + (currentPosition * oneCharHeight + oneCharHeight / 2).toFloat()
+                        )
+                    listener?.touchListener(builder.currentChar, true, pointF)
+                    playVibrator()
+                    invalidate()
+                }
+            }
+            MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL -> {
+                isPressDown = false
+                listener?.touchListener(builder.currentChar, false, null)
             }
             else -> {
             }
         }
         return true
+    }
+
+    private fun playVibrator() {
+        if (builder.isVibrator) {
+            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+//            val vibrator =
+//                context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+//            vibrator.vibrate(8L)
+        }
     }
 
     private fun dp2px(dp: Int): Int {
@@ -207,5 +238,56 @@ class IndexBar @JvmOverloads constructor(
 
     interface IndexBarListener {
         fun touchListener(str: String, isShowPreView: Boolean, pointF: PointF?)
+    }
+
+    class Builder {
+        //字体大小
+        var textSize = 11
+            private set
+        //字体颜色-已选中
+        var textSelectColor = Color.GRAY
+            private set
+        //字体颜色-未选中
+        var textNoSelectColor = Color.BLACK
+            private set
+        //字体已选中圆背景色
+        var circleSelectColor = Color.RED
+            private set
+        //点击是否振动
+        var isVibrator = true
+            private set
+        //当前选中字母
+        var currentChar = ""
+            private set
+
+        fun setCurrentChar(currentChar: String): Builder {
+            this.currentChar = currentChar
+            return this
+        }
+
+        fun setTextSize(textSize: Int): Builder {
+            this.textSize = textSize
+            return this
+        }
+
+        fun setTextSelectColor(textSelectColor: Int): Builder {
+            this.textSelectColor = textSelectColor
+            return this
+        }
+
+        fun setTextNoSelectColor(textNoSelectColor: Int): Builder {
+            this.textNoSelectColor = textNoSelectColor
+            return this
+        }
+
+        fun setCircleSelectColor(circleSelectColor: Int): Builder {
+            this.circleSelectColor = circleSelectColor
+            return this
+        }
+
+        fun setIsVibrator(isVibrator: Boolean): Builder {
+            this.isVibrator = isVibrator
+            return this
+        }
     }
 }
