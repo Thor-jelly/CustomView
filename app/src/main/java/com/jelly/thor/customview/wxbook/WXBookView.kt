@@ -99,7 +99,7 @@ class WXBookView @JvmOverloads constructor(
                 R.styleable.WXBookView_wxbookview_bar_text_vibrator,
                 true
             )
-            
+
             //预览效果属性暂不添加
             array.recycle()
         }

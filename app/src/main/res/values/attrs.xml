@@ -65,10 +65,10 @@
             <enum name="wrap_content" value="-2" />
         </attr>
         <!--        预览背景-->
-        <attr name="wxbookview_preview_background" format="reference" />
+<!--        <attr name="wxbookview_preview_background" format="reference" />-->
         <!--        预览文字颜色-->
-        <attr name="wxbookview_preview_text_color" format="color" />
+<!--        <attr name="wxbookview_preview_text_color" format="color" />-->
         <!--        预览距所有距离-->
-        <attr name="wxbookview_preview_margin_bar" format="dimension" />
+<!--        <attr name="wxbookview_preview_margin_bar" format="dimension" />-->
     </declare-styleable>
 </resources>
