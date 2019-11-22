@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jelly.thor.customview.R
+import com.jelly.thor.customview.wxbook.test.TestBean
 
 /**
  * 创建人：吴冬冬<br/>
@@ -120,7 +121,7 @@ class WXBookView @JvmOverloads constructor(
         mRv.adapter = adapter
         mRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val sub = getRvAdapterListPinyinInitials(adapter)
+                val sub = WXUtils.getRvFistVisiblePinyinFirstChar(mRv, adapter)
                 mIndexBar.setCurrentChar(sub)
             }
         })
@@ -128,7 +129,7 @@ class WXBookView @JvmOverloads constructor(
 
         val indexBarBuilder =
             IndexBar.Builder().apply {
-                setCurrentChar(getRvAdapterListPinyinInitials(adapter))
+                setCurrentChar(WXUtils.getRvFistVisiblePinyinFirstChar(mRv, adapter))
                 setTextSize(mBarTextSize)
                 setTextSelectColor(mBarTextSelectColor)
                 setTextNoSelectColor(mBarTextNoSelectColor)
@@ -157,7 +158,7 @@ class WXBookView @JvmOverloads constructor(
                     }
                 } else {
                     mTv.visibility = View.INVISIBLE
-                    val sub = getRvAdapterListPinyinInitials(adapter)
+                    val sub = WXUtils.getRvFistVisiblePinyinFirstChar(mRv, adapter)
                     if (str != sub) {
                         mIndexBar.setCurrentChar(sub)
                     }
@@ -167,24 +168,6 @@ class WXBookView @JvmOverloads constructor(
         })
     }
 
-    /**
-     * 获取rv可见数据中第一个的首字母
-     */
-    private fun <T : WXBean> getRvAdapterListPinyinInitials(
-        adapter: WXBaseAdapter<T>
-    ): String {
-        //判断当前显示第一个是否为侧边索引字母，如果不是更改所有选中字母
-        val manager = mRv.layoutManager as LinearLayoutManager
-        val position = manager.findFirstVisibleItemPosition()
-        val pinyin = adapter.list[position].pinyin
-        return if (pinyin.isEmpty()) {
-            "#"
-        } else {
-            pinyin.substring(0, 1).toUpperCase()
-        }
-
-    }
-
     private fun dp2px(dp: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -192,5 +175,10 @@ class WXBookView @JvmOverloads constructor(
             context.resources.displayMetrics
         )
             .toInt()
+    }
+
+    fun <T : WXBean> notifyDataSetChanged(adapter: WXBaseAdapter<T>) {
+        WXUtils.sort(adapter.list)
+        adapter.notifyDataSetChanged()
     }
 }

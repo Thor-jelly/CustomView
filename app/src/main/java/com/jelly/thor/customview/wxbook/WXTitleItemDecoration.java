@@ -44,7 +44,9 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-
+        if (list.isEmpty()) {
+            return;
+        }
         //第一步设置出分类item顶部留的距离
         final int position = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
         if (position < 0) {
@@ -55,20 +57,8 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
             outRect.set(0, mBuilder.height, 0, 0);
         } else {
             //其他通过判断当前的是否等于上一个首字母
-            String nowPinyin = list.get(position).getPinyin();
-            String nowSub;
-            if (nowPinyin.length() == 0) {
-                nowSub = "#";
-            } else {
-                nowSub = nowPinyin.substring(0, 1);
-            }
-            String oldPinyin = list.get(position - 1).getPinyin();
-            String oldSub;
-            if (oldPinyin.length() == 0) {
-                oldSub = "#";
-            } else {
-                oldSub = oldPinyin.substring(0, 1);
-            }
+            String nowSub = WXUtils.getPinyinFirstChar(list.get(position));
+            String oldSub = WXUtils.getPinyinFirstChar(list.get(position - 1));
             if (!nowSub.equals(oldSub)) {
                 outRect.set(0, mBuilder.height, 0, 0);
             } else {
@@ -80,6 +70,9 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDraw(c, parent, state);
+        if (list.isEmpty()) {
+            return;
+        }
         //第二部绘制分类分割线
         final int start = parent.getPaddingStart();
         final int end = parent.getWidth() - parent.getPaddingEnd();
@@ -91,25 +84,13 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
             if (position < 0) {
                 return;
             }
-            String nowPinyin = list.get(position).getPinyin();
-            String nowSub;
-            if (nowPinyin.length() == 0) {
-                nowSub = "#";
-            } else {
-                nowSub = nowPinyin.substring(0, 1);
-            }
+            String nowSub = WXUtils.getPinyinFirstChar(list.get(position));
             if (position == 0) {
                 //第一个item肯定是有分类的，绘制分类
                 drawTitle(c, start, end, child, params, position, nowSub);
             } else {
                 //其他通过判断当前的是否等于上一个首字母
-                String oldPinyin = list.get(position - 1).getPinyin();
-                String oldSub;
-                if (oldPinyin.length() == 0) {
-                    oldSub = "#";
-                } else {
-                    oldSub = oldPinyin.substring(0, 1);
-                }
+                String oldSub = WXUtils.getPinyinFirstChar(list.get(position - 1));
                 if (!nowSub.equals(oldSub)) {
                     //绘制分类
                     drawTitle(c, start, end, child, params, position, nowSub);
@@ -123,6 +104,9 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
+        if (list.isEmpty()) {
+            return;
+        }
         //绘制悬浮view
         final int position = ((LinearLayoutManager) (parent.getLayoutManager())).findFirstVisibleItemPosition();
 
@@ -130,24 +114,12 @@ public class WXTitleItemDecoration extends RecyclerView.ItemDecoration {
         //出现一个奇怪的bug，有时候child为空，所以将 child = parent.getChildAt(i)。-》 parent.findViewHolderForLayoutPosition(position).itemView
         View child = parent.findViewHolderForLayoutPosition(position).itemView;
 
-        String nowPinyin = list.get(position).getPinyin();
-        String nowSub;
-        if (nowPinyin.length() == 0) {
-            nowSub = "#";
-        } else {
-            nowSub = nowPinyin.substring(0, 1);
-        }
+        String nowSub = WXUtils.getPinyinFirstChar(list.get(position));
 
         //是否移动画布
         boolean isTranslateCanvas = false;
         if (position + 1 < list.size()) {
-            String nextPinyin = list.get(position + 1).getPinyin();
-            String nextSub;
-            if (nextPinyin.length() == 0) {
-                nextSub = "#";
-            } else {
-                nextSub = nextPinyin.substring(0, 1);
-            }
+            String nextSub = WXUtils.getPinyinFirstChar(list.get(position + 1));
             if (!nowSub.equals(nextSub)) {
                 //下一个位置分类跟当前不同
                 //当getTop开始变负，它的绝对值，是第一个可见的Item移出屏幕的距离

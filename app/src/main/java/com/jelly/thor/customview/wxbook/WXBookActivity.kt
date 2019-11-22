@@ -26,6 +26,14 @@ class WXBookActivity : AppCompatActivity() {
 
         val list = mutableListOf<TestBean>()
 
+
+
+//        list.sort()
+//        println("list")
+
+        val adapter = TestAdapter(list)
+        wx_view.setAdapter(adapter)
+
         val b11 = TestBean()
         b11.name = "长沙"
         list.add(b11)
@@ -83,10 +91,6 @@ class WXBookActivity : AppCompatActivity() {
             vvvv.name = "我是谁bvvvv"
             list.add(vvvv)
         }
-
-//        list.sort()
-//        println("list")
-
-        wx_view.setAdapter(TestAdapter(list))
+        wx_view.notifyDataSetChanged(adapter)
     }
 }
