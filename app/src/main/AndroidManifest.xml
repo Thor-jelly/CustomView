@@ -55,6 +55,8 @@
         <activity android:name=".parallaxanimator.ParallaxAnimatorActivity" />
         <!--仿微信通讯录-->
         <activity android:name=".wxbook.WXBookActivity" />
+        <!--拦截view测试-->
+        <activity android:name=".hookview.HookViewActivity" />
     </application>
 
 </manifest>

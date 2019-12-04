@@ -1,6 +1,8 @@
 package com.jelly.thor.customview.wxbook
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.promeg.pinyinhelper.Pinyin
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict
@@ -25,8 +27,6 @@ class WXBookActivity : AppCompatActivity() {
         Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(applicationContext)))
 
         val list = mutableListOf<TestBean>()
-
-
 
 //        list.sort()
 //        println("list")

@@ -9,6 +9,7 @@ import com.jelly.thor.customview.carnumberkeyboard.CarNumberKeyboardActivity
 import com.jelly.thor.customview.custombehavior.CustomBehaviorActivity
 import com.jelly.thor.customview.equalscalecouponview.EqualScaleCouponViewActivity
 import com.jelly.thor.customview.fonttest.FontTestActivity
+import com.jelly.thor.customview.hookview.HookViewActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.loadinganimation00.LoadingAnimation00Activity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
@@ -110,6 +111,10 @@ class MainActivity : AppCompatActivity() {
         clickWXBookActivity.setOnClickListener {
             //仿微信通讯录
             startNewActivity(WXBookActivity::class.java)
+        }
+        clickHookViewActivity.setOnClickListener {
+            //HookView测试
+            startNewActivity(HookViewActivity::class.java)
         }
     }
 

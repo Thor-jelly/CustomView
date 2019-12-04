@@ -184,5 +184,16 @@
             android:text="仿微信通讯录"
             android:textColor="@android:color/white"
             android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/clickHookViewActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#04f"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="HookViewTest"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
