@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jelly.thor.customview">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".App"
@@ -57,6 +57,8 @@
         <activity android:name=".wxbook.WXBookActivity" />
         <!--拦截view测试-->
         <activity android:name=".hookview.HookViewActivity" />
+        <!--自定义输入框-->
+        <activity android:name=".myedittext.MyEditTextActivity" />
     </application>
 
 </manifest>

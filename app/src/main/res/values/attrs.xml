@@ -71,4 +71,8 @@
         <!--        预览距所有距离-->
 <!--        <attr name="wxbookview_preview_margin_bar" format="dimension" />-->
     </declare-styleable>
+
+    <declare-styleable name="CleanEditText">
+        <attr name="cleanet_clean_ic" format="reference"/>
+    </declare-styleable>
 </resources>
