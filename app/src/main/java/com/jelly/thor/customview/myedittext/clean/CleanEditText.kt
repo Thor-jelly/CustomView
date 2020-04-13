@@ -3,6 +3,8 @@ package com.jelly.thor.customview.myedittext.clean
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -11,20 +13,37 @@ import com.jelly.thor.customview.R
 
 /**
  * 类描述：右侧是清楚按钮的布局 <br/>
+ * 参考：https://www.jianshu.com/p/1d947fc67ddf
+ * 参考：https://blog.csdn.net/jiangtea/article/details/60134783
  * 创建人：吴冬冬<br/>
  * 创建时间：2020/4/10 16:56 <br/>
  */
-class CleanEditText @JvmOverloads constructor(
-    context: Context?,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) :
-    AppCompatEditText(context, attrs, defStyleAttr) {
-    private lateinit var mClearDrawable:Drawable
+open class CleanEditText :
+    AppCompatEditText{
 
-    init {
+    constructor(context: Context?) : this(context, null)
+
+    constructor(context: Context?, attrs: AttributeSet?) : super(
+        context,
+        attrs
+    ) {
+        init(attrs)
+    }
+
+    constructor(
+        context: Context?,
+        attrs: AttributeSet?,
+        defStyleAttr: Int
+    ) : super(context, attrs, defStyleAttr) {
+        init(attrs)
+    }
+
+    private lateinit var mClearDrawable: Drawable
+
+    private fun init(attrs: AttributeSet?) {
         val ta = context!!.obtainStyledAttributes(attrs, R.styleable.CleanEditText)
-        mClearDrawable = ta.getDrawable(R.styleable.CleanEditText_cleanet_clean_ic) ?: context.resources.getDrawable(R.drawable.clean_edit_text_clean_ic)
+        mClearDrawable = ta.getDrawable(R.styleable.CleanEditText_cleanet_clean_ic)
+            ?: context.resources.getDrawable(R.drawable.clean_edit_text_clean_ic)
         ta.recycle()
     }
 
@@ -42,7 +61,11 @@ class CleanEditText @JvmOverloads constructor(
 
     private fun showClear(visible: Boolean) {
         //设置显隐清除图标
-        mClearDrawable.setBounds(0, 0, 16.dp2px(context), 16.dp2px(context))
+        if (!::mClearDrawable.isInitialized) {
+            return
+        }
+
+        mClearDrawable.setBounds(0, 0, 18.dp2px(context), 18.dp2px(context))
         setCompoundDrawables(
             null,
             null,
@@ -63,16 +86,25 @@ class CleanEditText @JvmOverloads constructor(
         event?.let {
             when (it.action) {
                 MotionEvent.ACTION_UP -> {
-                    /*if (isClickClear(event.x)) {
-
-                    }*/
+                    if (isClickClear(event.x)) {
+                        text = null
+                    }
                 }
             }
         }
         return super.onTouchEvent(event)
     }
-}
 
-private fun Int.dp2px(context: Context): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics).toInt()
+    private fun isClickClear(x: Float): Boolean {
+        // 是否触摸到清除图标区域
+        return compoundDrawables[2] != null && x >= width - compoundPaddingRight && x <= width
+    }
+
+    protected fun Int.dp2px(context: Context): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
+    }
 }

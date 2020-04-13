@@ -12,6 +12,7 @@ import com.jelly.thor.customview.fonttest.FontTestActivity
 import com.jelly.thor.customview.hookview.HookViewActivity
 import com.jelly.thor.customview.kugou.SlidingKuGouMenuActivity
 import com.jelly.thor.customview.loadinganimation00.LoadingAnimation00Activity
+import com.jelly.thor.customview.myedittext.MyEditTextActivity
 import com.jelly.thor.customview.ninelockpalaces.NineLockPalacesActivity
 import com.jelly.thor.customview.notchline.NotchLineActivity
 import com.jelly.thor.customview.parallaxanimator.ParallaxAnimatorActivity
@@ -115,6 +116,11 @@ class MainActivity : AppCompatActivity() {
         clickHookViewActivity.setOnClickListener {
             //HookView测试
             startNewActivity(HookViewActivity::class.java)
+        }
+
+        clickMyEditTextActivity.setOnClickListener {
+            //自定义输入框
+            startNewActivity(MyEditTextActivity::class.java)
         }
     }
 

@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <com.jelly.thor.customview.myedittext.clean.CleanEditText
         android:id="@+id/mEt1"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:background="#f00"
+        android:drawablePadding="3dp"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
+
+    <com.jelly.thor.customview.myedittext.clean.BankNumberEditText
+        android:id="@+id/mEt2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:background="#f00"
+        android:drawablePadding="3dp"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
 </LinearLayout>
