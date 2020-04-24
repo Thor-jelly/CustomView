@@ -59,6 +59,8 @@
         <activity android:name=".hookview.HookViewActivity" />
         <!--自定义输入框-->
         <activity android:name=".myedittext.MyEditTextActivity" />
+        <!--会员动画-->
+        <activity android:name=".yelopack.YeloPackActivity" />
     </application>
 
 </manifest>

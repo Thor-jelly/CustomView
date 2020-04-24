@@ -206,5 +206,16 @@
             android:text="自定义输入框"
             android:textColor="@android:color/white"
             android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/clickYeloPackActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#06f"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="YeloPackActivity"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

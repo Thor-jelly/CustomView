@@ -22,6 +22,7 @@ import com.jelly.thor.customview.snaphelptest.SnapHelpActivity
 import com.jelly.thor.customview.statusbar.StatusBarActivity
 import com.jelly.thor.customview.tablayoutfloattop.TabLayoutFloatTopActivity
 import com.jelly.thor.customview.wxbook.WXBookActivity
+import com.jelly.thor.customview.yelopack.YeloPackActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -121,6 +122,10 @@ class MainActivity : AppCompatActivity() {
         clickMyEditTextActivity.setOnClickListener {
             //自定义输入框
             startNewActivity(MyEditTextActivity::class.java)
+        }
+
+        clickYeloPackActivity.setOnClickListener {
+            startNewActivity(YeloPackActivity::class.java)
         }
     }
 

@@ -3,8 +3,6 @@ package com.jelly.thor.customview.myedittext.clean
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -19,7 +17,7 @@ import com.jelly.thor.customview.R
  * 创建时间：2020/4/10 16:56 <br/>
  */
 open class CleanEditText :
-    AppCompatEditText{
+    AppCompatEditText {
 
     constructor(context: Context?) : this(context, null)
 
