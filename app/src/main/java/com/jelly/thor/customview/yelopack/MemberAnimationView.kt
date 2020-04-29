@@ -94,6 +94,7 @@ class MemberAnimationView @JvmOverloads constructor(
             member1.translationX = member1W
             member1.translationY = member1H
 
+            //val member2W = ((width - member2.width * scaleF) / 2 - w) * (1 - scaleF)
             val member2W = -((width - member2.width * scaleF) / 2) * (scaleF - 1)
             val member2H = ((height - member2.height * scaleF) / 2) * (scaleF - 1)
             member2.translationX = member2W
