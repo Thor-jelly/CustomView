@@ -58,21 +58,33 @@
         <!--        预览文字大小-->
         <attr name="wxbookview_preview_text_size" format="dimension" />
         <!--        预览文本框大小-->
-        <attr name="wxbookview_preview_text_width" format="dimension" >
+        <attr name="wxbookview_preview_text_width" format="dimension">
             <enum name="wrap_content" value="-2" />
         </attr>
-        <attr name="wxbookview_preview_text_height" format="dimension" >
+        <attr name="wxbookview_preview_text_height" format="dimension">
             <enum name="wrap_content" value="-2" />
         </attr>
         <!--        预览背景-->
-<!--        <attr name="wxbookview_preview_background" format="reference" />-->
+        <!--        <attr name="wxbookview_preview_background" format="reference" />-->
         <!--        预览文字颜色-->
-<!--        <attr name="wxbookview_preview_text_color" format="color" />-->
+        <!--        <attr name="wxbookview_preview_text_color" format="color" />-->
         <!--        预览距所有距离-->
-<!--        <attr name="wxbookview_preview_margin_bar" format="dimension" />-->
+        <!--        <attr name="wxbookview_preview_margin_bar" format="dimension" />-->
     </declare-styleable>
 
     <declare-styleable name="CleanEditText">
-        <attr name="cleanet_clean_ic" format="reference"/>
+        <attr name="cleanet_clean_ic" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="YeloWmsNotchLineView">
+        <attr name="topRadius" format="dimension" />
+        <attr name="topFillColorStyle" format="enum">
+            <enum name="line" value="1" />
+            <enum name="color" value="2" />
+        </attr>
+        <attr name="colorStart" format="color|reference" />
+        <attr name="colorEnd" format="color|reference" />
+        <attr name="bottomColor" format="color|reference" />
+        <attr name="notchRadius" format="dimension" />
     </declare-styleable>
 </resources>

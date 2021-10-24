@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:background="#f00"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f00"
+    android:orientation="vertical">
+
     <com.jelly.thor.customview.notchline.NotchLineView
-            android:layout_margin="20dp"
-            app:bg_color="#00f"
-            app:dash_height="3dp"
-            app:dash_color="#0f0"
-            app:dash_width="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        app:bg_color="#00f"
+        app:dash_color="#0f0"
+        app:dash_height="3dp"
+        app:dash_width="8dp" />
+
+    <com.jelly.thor.customview.notchline.YeloWmsNotchLineView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="我是谁"
+            android:textColor="@android:color/white" />
+
+    </com.jelly.thor.customview.notchline.YeloWmsNotchLineView>
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="10dp"/>
 </LinearLayout>
